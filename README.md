@@ -9,7 +9,6 @@
 Official PyTorch implementation of the paper [**"TEMOS: Generating diverse human motions from textual descriptions".**](http://arxiv.org/abs/2204.14109).
 Please visit our [**webpage**](https://mathis.petrovich.fr/temos/) for more details.
 
-![teaser](visuals/teaser.png)
 ![teaser_light](visuals/teaser_white.png#gh-light-mode-only)![teaser_dark](visuals/teaser_black.png#gh-dark-mode-only)
 
 
