@@ -23,6 +23,7 @@ conda activate temos
 Install [PyTorch 1.10](https://pytorch.org/) inside the conda environnement, and install the following packages:
 ```bash
 pip install pytorch_lightning --upgrade
+pip install torchmetrics==0.7
 pip install hydra-core --upgrade
 pip install shortuuid
 pip install hydra_colorlog --upgrade

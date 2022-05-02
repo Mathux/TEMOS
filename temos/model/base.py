@@ -1,9 +1,5 @@
 import numpy as np
 from pytorch_lightning import LightningModule
-from hydra.utils import instantiate
-
-from temos.model.metrics import ComputeMetrics
-from torchmetrics import MetricCollection
 
 
 class BaseModel(LightningModule):
@@ -28,7 +24,6 @@ class BaseModel(LightningModule):
 
         self.hparams.n_params_trainable = trainable
         self.hparams.n_params_nontrainable = nontrainable
-
 
     def training_step(self, batch, batch_idx):
         return self.allsplit_step("train", batch, batch_idx)

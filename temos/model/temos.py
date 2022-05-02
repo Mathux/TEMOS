@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 import torch
-import numpy as np
+
 from hydra.utils import instantiate
 
 from torch import Tensor
@@ -149,6 +149,10 @@ class TEMOS(BaseModel):
                                          dis_text=distribution_from_text,
                                          dis_motion=distribution_from_motion,
                                          dis_ref=distribution_ref)
+
+        if loss is None:
+            raise ValueError("Loss is None, this happend with torchmetrics > 0.7")
+
         if split == "val":
             # Compute the metrics
             self.metrics.update(datastruct_from_text.detach().joints,

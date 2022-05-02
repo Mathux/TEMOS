@@ -3,9 +3,9 @@ from typing import Optional
 import torch
 from einops import rearrange
 from torch import Tensor
-from .tools import get_forward_direction, get_floor, gaussian_filter1d  # noqa
 from temos.tools.geometry import matrix_of_angles
 from .base import Joints2Jfeats
+from .tools import get_forward_direction, get_floor, gaussian_filter1d, T  # noqa
 
 
 class Rifke(Joints2Jfeats):
@@ -56,7 +56,7 @@ class Rifke(Joints2Jfeats):
             # normalize again to get real directions
             forward = torch.nn.functional.normalize(forward, dim=-1)
 
-        angles = torch.atan2(*forward.T).T
+        angles = T(torch.atan2(*T(forward)))
         vel_angles = torch.diff(angles, dim=-1)
         # 0 for the first one => keep the dimentionality
         vel_angles = torch.cat((0 * vel_angles[..., [0]], vel_angles), dim=-1)

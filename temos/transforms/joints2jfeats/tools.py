@@ -13,6 +13,11 @@ LS, RS = mmm_joints.index("LS"), mmm_joints.index("RS")
 LH, RH = mmm_joints.index("LH"), mmm_joints.index("RH")
 
 
+# .T is deprecated now for reversing a tensor
+def T(x):
+    return x.permute(*torch.arange(x.ndim - 1, -1, -1))
+
+
 def get_forward_direction(poses, jointstype="mmm"):
     assert jointstype == "mmm"
     across = poses[..., RH, :] - poses[..., LH, :] + poses[..., RS, :] - poses[..., LS, :]
@@ -27,7 +32,7 @@ def get_floor(poses, jointstype="mmm"):
 
     foot_heights = poses[..., (LM, LF, RM, RF), 1].min(-1).values
     floor_height = softmin(foot_heights, softness=0.5, dim=-1)
-    return floor_height[(ndim - 2) * [None]].T
+    return T(floor_height[(ndim - 2) * [None]])
 
 
 def softmax(x, softness=1.0, dim=None):
