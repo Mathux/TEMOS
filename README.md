@@ -12,6 +12,20 @@ Please visit our [**webpage**](https://mathis.petrovich.fr/temos/) for more deta
 ![teaser_light](visuals/teaser_white.png#gh-light-mode-only)![teaser_dark](visuals/teaser_black.png#gh-dark-mode-only)
 
 
+#### Bibtex
+If you find this code useful in your research, please cite:
+
+```
+@article{petrovich22temos,
+  title     = {{TEMOS}: Generating diverse human motions from textual descriptions},
+  author    = {Petrovich, Mathis and Black, Michael J. and Varol, G{\"u}l},
+  journal   = {arXiv},
+  month     = {April},
+  year      = {2022}
+}
+```
+
+
 ## Installation :construction_worker:
 ### 1. Create conda environment
 
