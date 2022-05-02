@@ -1,0 +1,53 @@
+_target_: temos.model.losses.TemosComputeLosses
+
+mode: ${transforms.ename}
+
+# Loss terms
+## Reconstruction losses
+lmd_rfeats_recons: 1.0
+lmd_jfeats_recons: 1.0
+
+## Latent spaces losses
+lmd_latent: 1e-5
+lmd_kl: 32e-5
+
+# Ablations
+loss_on_both: true
+
+force_loss_on_jfeats: false
+ablation_no_kl_combine: false
+ablation_no_kl_gaussian: false
+ablation_no_motionencoder: false
+
+# Text => rfeats (rotation features)
+recons_text2rfeats: ${.lmd_rfeats_recons}
+recons_text2rfeats_func: ${model.func_recons}
+
+# Text => jfeats (xyz features)
+recons_text2jfeats: ${.lmd_jfeats_recons}
+recons_text2jfeats_func: ${model.func_recons}
+
+# rfeats => rfeats
+recons_rfeats2rfeats: ${.lmd_rfeats_recons}
+recons_rfeats2rfeats_func: ${model.func_recons}
+
+# jfeats => jfeats
+recons_jfeats2jfeats: ${.lmd_jfeats_recons}
+recons_jfeats2jfeats_func: ${model.func_recons}
+
+# Latent space losses
+latent_manifold: ${.lmd_latent}
+latent_manifold_func: ${model.func_latent}
+
+# VAE losses
+kl_text: ${.lmd_kl}
+kl_text_func: ${model.func_kl}
+
+kl_motion: ${.lmd_kl}
+kl_motion_func: ${model.func_kl}
+
+kl_text2motion: ${.lmd_kl}
+kl_text2motion_func: ${model.func_kl}
+
+kl_motion2text: ${.lmd_kl}
+kl_motion2text_func: ${model.func_kl}

@@ -1,0 +1,8 @@
+logger_name: tensorboard
+version: ${run_id}
+
+save_dir: tensorboard
+version: ""
+log_graph: false
+default_hp_metric: false
+project: null

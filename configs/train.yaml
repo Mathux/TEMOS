@@ -1,0 +1,31 @@
+hydra:
+  run:
+    dir: outputs/${data.dataname}/${experiment}/${run_id}
+
+# Global configurations shared between different modules
+experiment: baseline
+
+seed: 1234
+
+logger_level: INFO
+run_id: ${generate_id:}
+
+# Composing nested config with default
+defaults:
+  - data: kit-mmm-xyz
+  - model: temos
+  - machine: server
+  - trainer: gpu
+  - sampler: variable_conseq
+  - logger: none
+  - callback: base
+  - /path@path
+  - override hydra/job_logging: custom
+  - override hydra/hydra_logging: custom
+  - _self_
+
+data:
+  transforms:
+    normalization: true
+
+transforms: ${data.transforms}

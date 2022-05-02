@@ -1,0 +1,22 @@
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+
+
+logger_level: INFO
+
+defaults:
+  - data: kit-mmm-xyz
+  - machine: server
+  - sampler: all_conseq
+  - /path@path
+  - override hydra/job_logging: custom
+  - override hydra/hydra_logging: custom
+  - _self_
+
+data:
+  transforms:
+    normalization: false
+
+transforms: ${data.transforms}

@@ -1,0 +1,20 @@
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+
+seed: 1234
+logger_level: INFO
+
+# Composing nested config with default
+defaults:
+  - data: kit-mmm-xyz
+  - machine: server
+  - sampler: all_conseq
+  - /path@path
+  - override hydra/job_logging: custom
+  - override hydra/hydra_logging: custom
+  - _self_
+
+
+transforms: ${data.transforms}

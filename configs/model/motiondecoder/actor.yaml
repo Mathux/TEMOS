@@ -1,0 +1,10 @@
+name: actor_decoder
+_target_: temos.model.motiondecoder.actor.ActorAgnosticDecoder
+
+latent_dim: ${model.latent_dim}
+
+ff_size: ${model.ff_size}
+num_layers: ${model.num_layers}
+num_head: ${model.num_head}
+droupout: ${model.droupout}
+activation: ${model.activation}

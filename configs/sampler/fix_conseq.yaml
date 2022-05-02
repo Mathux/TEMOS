@@ -1,0 +1,11 @@
+_target_: temos.data.sampling.FrameSampler
+
+# For fix size data
+request_frames: 60
+threshold_reject: 0.75
+sampling: conseq
+sampling_step: 1
+
+# For data of any size
+max_len: 10000
+min_len: 10

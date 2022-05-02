@@ -1,0 +1,8 @@
+name: SMPLH
+_target_: temos.transforms.rots2joints.SMPLH
+
+jointstype: mmm
+input_pose_rep: matrix
+path: ${path.deps}/smplh
+batch_size: ${machine.smpl_batch_size}
+gender: neutral

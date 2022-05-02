@@ -1,0 +1,17 @@
+name: SMPLTransform
+ename: smpl
+
+_target_: temos.transforms.SMPLTransform
+
+normalization: true
+
+defaults:
+  - rots2rfeats: smplvelp
+  - rots2joints: smplh
+  - joints2jfeats: rifke
+
+rots2rfeats:
+  normalization: ${transforms.normalization}
+
+joints2jfeats:
+  normalization: ${transforms.normalization}

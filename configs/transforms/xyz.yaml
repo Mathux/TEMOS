@@ -1,0 +1,12 @@
+name: XYZTransform
+ename: xyz
+
+_target_: temos.transforms.xyz.XYZTransform
+
+normalization: true
+
+defaults:
+  - joints2jfeats: rifke
+
+joints2jfeats:
+  normalization: ${transforms.normalization}

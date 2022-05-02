@@ -1,0 +1,4 @@
+logger_name: none
+version: ${run_id}
+
+project: null

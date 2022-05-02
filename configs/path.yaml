@@ -1,0 +1,5 @@
+# path to additional modules
+deps: ${code_path:./deps}
+datasets: ${code_path:./datasets}
+code_dir: ${code_path:}
+working_dir: ${working_path:""}

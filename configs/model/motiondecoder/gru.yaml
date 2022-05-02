@@ -1,0 +1,5 @@
+name: gru_decoder
+_target_: temos.model.motiondecoder.gru.GRUDecoder
+
+latent_dim: ${model.latent_dim}
+num_layers: ${model.num_layers}

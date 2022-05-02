@@ -1,0 +1,30 @@
+dataname: kit-amass-rot
+_target_: temos.data.kit.KITDataModule
+
+# Paths
+datapath: ${path.datasets}/kit
+splitpath: ${path.datasets}/kit-splits
+
+# Amass
+load_amass_data: true
+load_with_rot: true
+correspondance_path: ${path.datasets}/kitml_amass_path.json
+amass_path: ${path.datasets}/AMASS
+smplh_path: ${path.deps}/smplh
+
+# Text
+pick_one_text: true
+
+# Machine
+batch_size: ${machine.batch_size}
+num_workers: ${machine.num_workers}
+
+# Motion
+framerate: 12.5
+sampler: ${sampler}
+defaults:
+  - /transforms/smpl.yaml@transforms
+
+# Other
+tiny: false
+progress_bar: true

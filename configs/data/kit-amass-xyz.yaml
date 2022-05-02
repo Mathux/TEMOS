@@ -1,0 +1,42 @@
+dataname: kit-amass-xyz
+_target_: temos.data.kit.KITDataModule
+
+# Paths
+datapath: ${path.datasets}/kit
+splitpath: ${path.datasets}/kit-splits
+
+# Amass
+load_amass_data: true
+load_with_rot: false
+correspondance_path: ${path.datasets}/kitml_amass_path.json
+amass_path: ${path.datasets}/AMASS
+smplh_path: ${path.deps}/smplh
+
+# Text
+load_actions: false
+load_canonicalized_text: false
+pick_one_text: true
+
+# Machine
+batch_size: ${machine.batch_size}
+num_workers: ${machine.num_workers}
+
+# Motion
+framerate: 12.5
+sampler: ${sampler}
+defaults:
+  - /transforms/xyz.yaml@transforms_xyz
+  - /transforms/smpl.yaml@transforms_smpl
+
+transforms: ${.transforms_xyz}
+
+transforms_smpl:
+  normalization: false
+  rots2rfeats:
+    normalization: false
+  joints2jfeats:
+    normalization: false
+
+# Other
+tiny: false
+progress_bar: true

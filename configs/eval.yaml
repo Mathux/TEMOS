@@ -1,0 +1,26 @@
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+
+folder: ???
+split: ghosh-test
+
+mean: false
+number_of_samples: 1
+fact: 1
+
+# only needed for amass
+jointstype: mmm
+
+logger_level: INFO
+
+defaults:
+  - /path@path
+  - /transforms/rots2joints/smplh@rots2joints
+  - override hydra/job_logging: console
+  - override hydra/hydra_logging: console
+  - _self_
+
+machine:
+  smpl_batch_size: 256

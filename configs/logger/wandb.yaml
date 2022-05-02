@@ -1,0 +1,10 @@
+logger_name: wandb
+version: ${run_id}
+
+save_dir: wandb
+project: TEMOS
+
+offline: true
+resume: false
+save_code: false
+log_model: false

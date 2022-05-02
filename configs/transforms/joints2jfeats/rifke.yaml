@@ -1,0 +1,6 @@
+name: Rifke
+_target_: temos.transforms.joints2jfeats.Rifke
+
+path: ${path.deps}/transforms/joints2jfeats/rifke/${data.dataname}
+normalization: true
+forward_filter: false
