@@ -30,6 +30,7 @@ pip install tqdm
 pip install pandas
 pip install transformers
 pip install psutil
+pip install einops
 ```
 The code was tested on Python 3.9.7 and PyTorch 1.10.0.
 
