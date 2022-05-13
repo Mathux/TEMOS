@@ -13,7 +13,7 @@ Please visit our [**webpage**](https://mathis.petrovich.fr/temos/) for more deta
 ![teaser_light](visuals/teaser_white.png#gh-light-mode-only)![teaser_dark](visuals/teaser_black.png#gh-dark-mode-only)
 
 
-#### Bibtex
+### Bibtex
 If you find this code useful in your research, please cite:
 
 ```
@@ -25,6 +25,8 @@ If you find this code useful in your research, please cite:
   year      = {2022}
 }
 ```
+
+You can also put a star :star:, if the code is useful to you.
 
 
 ## Installation :construction_worker:
@@ -72,6 +74,8 @@ cd ..
 ```
 
 ### 4. SMPL body model
+WIP: instructions to be released soon
+
 
 ### 5. (Optional) Donwload pre-trained models
 WIP: instructions to be released soon
@@ -88,7 +92,9 @@ The parsing is done by using the powerful [Hydra](https://github.com/facebookres
 
 ### Experiment path
 Each training will create a unique output directory (referred to as ``FOLDER`` below), where logs, configuations and checkpoints are stored.
+
 By default it is defined as ``outputs/${data.dataname}/${experiment}/${run_id}`` with ``data.dataname`` the name of the dataset (see examples below), ``experiment=baseline`` and ```run_id``` a 8 unique random alpha-numeric identifier for the run (everything can be overridden if needed).
+
 This folder is printed during logging, it should look like ``outputs/kit-mmm-xyz/baseline/3gn7h7v6/``.
 
 
@@ -124,24 +130,30 @@ python sample.py folder=FOLDER [OPTIONS]
 
 This command will create the folder ``FOLDER/samples/SPLIT`` and save the motions in the npy format.
 
-#### Some optional parameters
+### Some optional parameters
 - ``mean=false``: Take the mean value for the latent vector, instead of sampling (default is false)
 - ``number_of_samples=X``: Generate ``X`` motions (by default it generates only one)
 - ``fact=X``: Multiplies sigma by ``X`` during sampling (1.0 by default, diversity can be increased when ``fact>1``)
 
 
-#### Model trained on SMPL rotations
+### Model trained on SMPL rotations
 If your model has been trained with ``data=kit-amass-rot``, it produces [SMPL](https://smpl.is.tue.mpg.de/) rotations and translations. In this case, you can specify the type of data you want to save after passing through the [SMPL](https://smpl.is.tue.mpg.de/) layer.
 - ``jointstype=mmm``: Generate xyz joints compatible with the [MMM](https://mmm.humanoids.kit.edu/) bodies (by default). This gives skeletons comparable to ``data=kit-mmm-xyz`` (needed for evaluation).
 - ``jointstype=vertices``: Generate human body meshes (needed for rendering).
 
 
-### Evaluating TEMOS
+## Evaluating TEMOS (and prior works)
 To evaluate TEMOS on the metrics defined in the paper, you must generate motions first (see above), and then run:
 ```bash
-python evaluate.py folder=FOLDER
+python evaluate.py folder=FOLDER [OPTIONS]
 ```
 This will compute and store the metrics in the file ``FOLDER/samples/metrics_SPLIT`` in a yaml format.
+
+### Some optional parameters
+Same parameters as in ``sample.py``, it will choose the right directories for you. In the case of evaluating with ``number_of_samples>1``, the script will compute two metrics ``metrics_gtest_multi_avg`` (the average of single metrics) and ``metrics_gtest_multi_best`` (chosing the best output for each motion). Please check the paper for more details.
+
+### Model trained on SMPL rotations
+Currently, evaluation is only implemented on skeletons with [MMM](https://mmm.humanoids.kit.edu/) format. You must therefore use ``jointstype=mmm`` during sampling.
 
 
 ### Evaluating prior works
@@ -150,26 +162,18 @@ WIP: the proper instructions and code will be available soon.
 To give an overview:
 1. Generate motions with their code (it is still in the rifke feature space)
 2. Save them in xyz format (I "hack" their render script, to save them in xyz npy format instead of rendering)
-3. Load them into the eval code (instead of loading TEMOS motions).
+3. Load them into the evaluation code (instead of loading TEMOS motions).
 
 
-#### Some optional parameters
-Same parameters as in ``sample.py``, it will choose the right directories for you. In the case of evaluating with ``number_of_samples>1``, the script will compute two metrics ``metrics_gtest_multi_avg`` (the average of single metrics) and ``metrics_gtest_multi_best`` (chosing the best output for each motion). Please check the paper for more details.
 
-
-#### Model trained on SMPL rotations
-Currently, evaluation is only implemented on skeletons with [MMM](https://mmm.humanoids.kit.edu/) format. You must therefore use ``jointstype=mmm`` during sampling.
-
-
-### Rendering motions
+## Rendering motions
 To get the visuals of the paper, I use [Blender 2.93](https://www.blender.org/download/releases/2-93/). The setup is not trivial (installation + running), I do my best to explain the process but don't hesitate to tell me if you have a problem.
 
 
-#### Instalation
+### Instalation
 The goal is to be able to install blender so that it can be used with python scripts (so we can use ``import bpy''). There seem to be many different ways to do this, I will explain the one I use and understand (feel free to use other methods or suggest an easier way). The installation of Blender will be done as a standalone package. To use my scripts, we will run blender in the background, and the python executable in blender will run the script.
 
 In any case, after the installation, please do step 5. to install the dependencies in the python environment.
-
 
 1. Please follow the [instructions](https://www.blender.org/download/lts/2-93/) to install blender 2.93 on your operating system. Please install exactly this version.
 2. Locate the blender executable if it is not in your path. For the following commands, please replace ``blender`` with the path to your executable (or create a symbolic link or use an alias).
@@ -192,7 +196,7 @@ path/to/blender/python -m pip install --user moviepy
 path/to/blender/python -m pip install --user shortuuid
 ```
 
-#### Launch a python script (with arguments) with blender
+### Launch a python script (with arguments) with blender
 Now that blender is installed, if we want to run the script ``script.py`` with the blender API (the ``bpy`` module), we can use:
 ```bash
 blender --background --python script.py
@@ -202,24 +206,24 @@ If you need to add additional arguments, this will probably fail (as blender wil
 I then only parse the last part of the command (check [temos/launch/blender.py](temos/launch/blender.py) if you are interested).
 
 
-#### Rendering one sample
+### Rendering one sample
 To render only one motion, please use this command line:
 ```bash
 blender --background --python render.py -- npy=PATH_TO_DATA.npy [OPTIONS]
 ```
 
-#### Rendering all the data
+### Rendering all the data
 Please use this command line to render all the data of a split (which have to be already generated with ``sample.py``). I suggest to use ``split=visu`` to render only a small subset.
 ```bash
 blender --background --python render.py -- folder=FOLDER [OPTIONS]
 ```
 
-#### SMPL bodies
+### SMPL bodies
 Don't forget to generate the data with the option ``jointstype=vertices`` before.
 The renderer will automatically detect whether the movement is a sequence of joints or meshes.
 
 
-#### Some optional parameters
+### Some optional parameters
 - ``downsample=true``: Render only 1 frame every 8 frames, to speed up rendering (by default)
 - ``canonicalize=true``: Make sure the first pose is oriented canonically (by translating and rotating the entire sequence) (by default)
 - ``mode=XXX``: Choose the rendering mode (default is ``mode=sequence``)
