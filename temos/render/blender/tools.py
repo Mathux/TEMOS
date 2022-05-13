@@ -41,7 +41,7 @@ def delete_objs(names):
     bpy.ops.object.select_all(action='DESELECT')
     for obj in bpy.context.scene.objects:
         for name in names:
-            if obj.name.startswith(name):
+            if obj.name.startswith(name) or obj.name.endswith(name):
                 obj.select_set(True)
     bpy.ops.object.delete()
     bpy.ops.object.select_all(action='DESELECT')

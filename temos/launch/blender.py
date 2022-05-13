@@ -1,14 +1,11 @@
 # Fix blender path
 import sys
-sys.path.append("/linkhome/rech/genlgm01/uwm78rj/.local/lib/python3.9/site-packages")
+import os
+# local packages
+sys.path.append(os.path.expanduser("~/.local/lib/python3.9/site-packages"))
 import bpy
 import os
-DIR = os.path.dirname(bpy.data.filepath)
-if DIR not in sys.path:
-    sys.path.append(DIR)
-
 from argparse import ArgumentParser
-
 
 # Monkey patch argparse such that
 # blender / python / hydra parsing works

@@ -1,6 +1,7 @@
 import bpy
 from .materials import colored_material as get_mat
 
+
 def get_trajectory(data, is_mesh):
     if is_mesh:
         # mean of the vertices

@@ -8,8 +8,9 @@ from .materials import colored_material
 from .scene import setup_scene  # noqa
 from .floor import show_traj, plot_floor, get_trajectory
 from .vertices import prepare_vertices
-from .tools import load_numpy_vertices_into_blender, delete_objs
+from .tools import load_numpy_vertices_into_blender, delete_objs, mesh_detect
 from .camera import Camera
+from .sampler import get_frameidx
 
 
 def prune_begin_end(data, perc):
@@ -38,7 +39,7 @@ def render(npydata, frames_folder, *, mode, faces_path,
         # Setup the scene (lights / render engine / resolution etc)
         setup_scene(cycle=cycle, high_res=high_res)
 
-    from .tools import mesh_detect
+
     is_mesh = mesh_detect(npydata)
 
     # Put everything in this folder
@@ -91,7 +92,6 @@ def render(npydata, frames_folder, *, mode, faces_path,
     # initialize the camera
     camera = Camera(first_root=data.get_root(0), mode=mode, is_mesh=is_mesh)
 
-    from .sampler import get_frameidx
     frameidx = get_frameidx(mode=mode, nframes=nframes,
                             exact_frame=exact_frame,
                             frames_to_keep=num)
@@ -129,7 +129,7 @@ def render(npydata, frames_folder, *, mode, faces_path,
             render_current_frame(path)
             delete_objs(objname)
 
-    # bpy.ops.wm.save_as_mainfile(filepath="/Users/mathis/temos/code/all_vertices.blend")
+    # bpy.ops.wm.save_as_mainfile(filepath="~/file.blend")
     # exit()
 
     # remove every object created
