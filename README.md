@@ -231,3 +231,9 @@ The renderer will automatically detect whether the movement is a sequence of joi
   - ``sequence``: Render a single frame, with ``num=8`` bodies (sampled equally, as in the figures of the paper)
   - ``frame``: Render a single frame, at a specific point in time (``exact_frame=0.5``, generates the frame at about 50% of the video)
 - ``quality=false``: Render to a higher resolution and denoise the output (default to false to speed up))
+
+
+## License
+This code is distributed under an [MIT LICENSE](LICENSE).
+
+Note that our code depends on other libraries, including SMPL, SMPL-X, PyTorch3D, Hugging Face, Hydra, and uses datasets which each have their own respective licenses that must also be followed.
