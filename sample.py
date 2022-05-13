@@ -14,6 +14,36 @@ def _sample(cfg: DictConfig):
     return sample(cfg)
 
 
+def cfg_mean_nsamples_resolution(cfg):
+    if cfg.mean and cfg.number_of_samples > 1:
+        logger.error("All the samples will be the mean.. cfg.number_of_samples=1 will be forced.")
+        cfg.number_of_samples = 1
+
+    return cfg.number_of_samples == 1
+
+
+def get_path(sample_path: Path, split: str, onesample: bool, mean: bool, fact: float):
+    extra_str = ("_mean" if mean else "") if onesample else "_multi"
+    fact_str = "" if fact == 1 else f"{fact}_"
+    path = sample_path / f"{fact_str}{split}{extra_str}"
+    return path
+
+
+def load_checkpoint(model, last_ckpt_path, *, eval_mode):
+    # Load the last checkpoint
+    # model = model.load_from_checkpoint(last_ckpt_path)
+    # this will overide values
+    # for example relative to rots2joints
+    # So only load state dict is preferable
+    import torch
+    model.load_state_dict(torch.load(last_ckpt_path)["state_dict"])
+    logger.info("Model weights restored.")
+
+    if eval_mode:
+        model.eval()
+        logger.info("Model in eval mode.")
+
+
 def sample(newcfg: DictConfig) -> None:
     # Load last config
     output_dir = Path(hydra.utils.to_absolute_path(newcfg.folder))
@@ -23,10 +53,7 @@ def sample(newcfg: DictConfig) -> None:
     prevcfg = OmegaConf.load(output_dir / ".hydra/config.yaml")
     # Overload it
     cfg = OmegaConf.merge(prevcfg, newcfg)
-
-    if cfg.mean and cfg.number_of_samples > 1:
-        logger.error("All the samples will be the mean.. cfg.number_of_samples=1 will be forced.")
-        cfg.number_of_samples = 1
+    onesample = cfg_mean_nsamples_resolution(cfg)
 
     logger.info("Sample script. The outputs will be stored in:")
 
@@ -43,17 +70,8 @@ def sample(newcfg: DictConfig) -> None:
     else:
         storage = output_dir / "samples"
 
-    storage.mkdir(exist_ok=True)
-
-    fact_str = "" if cfg.fact == 1 else f"{cfg.fact}_"
-    mean_str = "_mean" if cfg.mean else ""
-
-    if cfg.number_of_samples == 1:
-        path = storage / f"{fact_str}{cfg.split}{mean_str}"
-    else:
-        path = storage / f"{fact_str}{cfg.split}_multi"
-
-    path.mkdir(exist_ok=True)
+    path = get_path(storage, cfg.split, onesample, cfg.mean, cfg.fact)
+    path.mkdir(exist_ok=True, parents=True)
 
     logger.info(f"{path}")
 
@@ -76,14 +94,7 @@ def sample(newcfg: DictConfig) -> None:
                         _recursive_=False)
     logger.info(f"Model '{cfg.model.modelname}' loaded")
 
-    # Load the last checkpoint
-    # model = model.load_from_checkpoint(last_ckpt_path)
-    # this one overide values
-    # for example relative to rots2joints
-    # So only load state dict
-    model.load_state_dict(torch.load(last_ckpt_path)["state_dict"])
-    logger.info("Model weights restored")
-    model.eval()
+    load_checkpoint(model, last_ckpt_path, eval_mode=True)
 
     if "amass" in cfg.data.dataname and "xyz" not in cfg.data.dataname:
         model.transforms.rots2joints.jointstype = cfg.jointstype
@@ -128,7 +139,7 @@ def sample(newcfg: DictConfig) -> None:
                 if cfg.number_of_samples > 1:
                     npypath = path / f"{keyid}_{index}.npy"
                 else:
-                    npypath = path / "{keyid}.npy"
+                    npypath = path / f"{keyid}.npy"
 
                 np.save(npypath, motion)
 

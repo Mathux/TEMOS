@@ -1,0 +1,41 @@
+hydra:
+  run:
+    dir: .
+  output_subdir: null
+
+npy: null
+
+folder: null
+split: gtest
+
+mean: false
+number_of_samples: 1
+fact: 1
+jointstype: mmm
+
+tmp_path: /tmp/
+
+logger_level: INFO
+
+quality: false
+cycle: ${quality}
+high_res: ${quality}
+
+# for video: 1/8 frame rendered
+downsample: true
+
+gt: false
+canonicalize: true
+exact_frame: 0.5
+num: 8
+
+always_on_floor: false
+
+mode: sequence
+
+defaults:
+  - /path@path
+  - _self_
+
+
+faces_path: ${path.deps}/smplh/smpl.faces

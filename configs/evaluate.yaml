@@ -4,7 +4,7 @@ hydra:
   output_subdir: null
 
 folder: ???
-split: ghosh-test
+split: gtest
 
 mean: false
 number_of_samples: 1

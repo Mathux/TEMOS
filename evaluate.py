@@ -4,16 +4,15 @@ import hydra
 import os
 from pathlib import Path
 from omegaconf import DictConfig, OmegaConf
-from temos.data.utils import get_split_keyids
 import temos.launch.prepare  # noqa
 
 
 logger = logging.getLogger(__name__)
 
 
-@hydra.main(config_path="configs", config_name="eval")
-def _eval(cfg: DictConfig):
-    return eval(cfg)
+@hydra.main(config_path="configs", config_name="evaluate")
+def _evaluate(cfg: DictConfig):
+    return evaluate(cfg)
 
 
 def regroup_metrics(metrics):
@@ -72,45 +71,47 @@ def get_samples_folder(path, *, jointstype):
     return samples_path, amass, jointstype
 
 
+def get_metric_paths(sample_path: Path, amass: bool, split: str, onesample: bool, mean: bool, fact: float):
+    extra_str = ("_mean" if mean else "") if onesample else "_multi"
+    fact_str = "" if fact == 1 else f"{fact}_"
+    metric_str = "amass_metrics" if amass else "metrics"
+
+    if onesample:
+        file_path = f"{fact_str}{metric_str}_{split}{extra_str}"
+        save_path = sample_path / file_path
+        return save_path
+    else:
+        file_path = f"{fact_str}{metric_str}_{split}_multi"
+        avg_path = sample_path / (file_path + "_avg")
+        best_path = sample_path / (file_path + "_best")
+        return avg_path, best_path
+
+
 def save_metric(path, metrics):
     strings = yaml.dump(metrics, indent=4, sort_keys=False)
     with open(path, "w") as f:
         f.write(strings)
 
 
-def eval(cfg: DictConfig) -> None:
+def evaluate(cfg: DictConfig) -> None:
     logger.info(f"Evaluation script.")
 
-    if cfg.mean and cfg.number_of_samples > 1:
-        logger.error("All the samples will be the mean.. cfg.number_of_samples=1 will be forced.")
-        cfg.number_of_samples = 1
-    onesample = cfg.number_of_samples == 1
-
+    from sample import cfg_mean_nsamples_resolution, get_path
+    onesample = cfg_mean_nsamples_resolution(cfg)
     model_samples, amass, jointstype = get_samples_folder(cfg.folder,
                                                           jointstype=cfg.jointstype)
     split = cfg.split
 
-    fact_str = "" if cfg.fact == 1 else f"{cfg.fact}_"
-    metric_str = "amass_metrics" if amass else "metrics"
-
-    if onesample:
-        extra_str = "_mean" if cfg.mean else ""
-    else:
-        extra_str = "_multi"
-
+    path = get_path(model_samples, cfg.split, onesample, cfg.mean, cfg.fact)
     file_path = f"amass_metrics_{split}" if amass else f"metrics_{split}"
 
+    save_paths = get_metric_paths(model_samples, amass, cfg.split, onesample, cfg.mean, cfg.fact)
     if onesample:
-        file_path = f"{fact_str}{metric_str}_{split}{extra_str}"
-        save_path = model_samples / file_path
+        save_path = save_paths
         logger.info(f"The outputs will be stored in: {save_path}")
     else:
-        file_path = f"{fact_str}{metric_str}_{split}_multi"
-        avg_path = model_samples / (file_path + "_avg")
-        best_path = model_samples / (file_path + "_best")
+        avg_path, best_path = save_paths
         logger.info(f"The outputs will be stored in: {avg_path} and {best_path}")
-
-    path = model_samples / f"{fact_str}{cfg.split}{extra_str}"
 
     logger.info("Loading the libraries")
     import numpy as np
@@ -118,6 +119,7 @@ def eval(cfg: DictConfig) -> None:
     import json
     from hydra.utils import instantiate
     from temos.data.kit import load_mmm_keyid, load_amass_keyid
+    from temos.data.utils import get_split_keyids
     from temos.model.metrics import ComputeMetrics, ComputeMetricsBest
     logger.info("Libraries loaded")
 
@@ -220,4 +222,4 @@ def eval(cfg: DictConfig) -> None:
 
 
 if __name__ == '__main__':
-    _eval()
+    _evaluate()
