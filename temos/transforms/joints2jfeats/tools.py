@@ -19,7 +19,7 @@ def T(x):
 
 
 def get_forward_direction(poses, jointstype="mmm"):
-    assert jointstype == "mmm"
+    assert jointstype in ["mmm", "mmmns"]
     across = poses[..., RH, :] - poses[..., LH, :] + poses[..., RS, :] - poses[..., LS, :]
     forward = torch.stack((-across[..., 2], across[..., 0]), axis=-1)
     forward = torch.nn.functional.normalize(forward, dim=-1)
@@ -27,7 +27,7 @@ def get_forward_direction(poses, jointstype="mmm"):
 
 
 def get_floor(poses, jointstype="mmm"):
-    assert jointstype == "mmm"
+    assert jointstype in ["mmm", "mmmns"]
     ndim = len(poses.shape)
 
     foot_heights = poses[..., (LM, LF, RM, RF), 1].min(-1).values
