@@ -166,7 +166,7 @@ class KIT(Dataset):
         self.features_data = features_data
         self.texts_data = texts_data
 
-        self.keyids = features_data.keys()
+        self.keyids = list(features_data.keys())
         self._split_index = list(self.keyids)
         self._num_frames_in_sequence = durations
         self.nfeats = len(self[0]["datastruct"].features[0])
