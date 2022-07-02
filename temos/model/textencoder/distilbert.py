@@ -30,7 +30,7 @@ class DistilbertEncoderBase(pl.LightningModule):
                 p.requires_grad = False
 
         # Then configure the model
-        self.text_encoded_dim = self.text_model.config.dim
+        self.text_encoded_dim = self.text_model.config.hidden_size
 
     def train(self, mode: bool = True):
         self.training = mode
