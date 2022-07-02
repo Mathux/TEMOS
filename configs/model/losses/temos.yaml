@@ -8,8 +8,8 @@ lmd_rfeats_recons: 1.0
 lmd_jfeats_recons: 1.0
 
 ## Latent spaces losses
-lmd_latent: 1e-5
-lmd_kl: 32e-5
+lmd_latent: 1.0e-5
+lmd_kl: 1.0e-05
 
 # Ablations
 loss_on_both: true
