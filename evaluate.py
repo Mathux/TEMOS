@@ -46,9 +46,6 @@ def sanitize(dico):
 
 
 def get_samples_folder(path, *, jointstype):
-    if jointstype == "vertices":
-        raise ValueError("No evaluation for vertices, sample the joints instead.")
-
     output_dir = Path(hydra.utils.to_absolute_path(path))
     candidates = [x for x in os.listdir(output_dir) if "samples" in x]
     if not candidates:
@@ -84,7 +81,8 @@ def get_metric_paths(sample_path: Path, amass: bool, split: str, onesample: bool
         file_path = f"{fact_str}{metric_str}_{split}_multi"
         avg_path = sample_path / (file_path + "_avg")
         best_path = sample_path / (file_path + "_best")
-        return avg_path, best_path
+        worst_path = sample_path / (file_path + "_worst")
+        return avg_path, best_path, worst_path
 
 
 def save_metric(path, metrics):
@@ -98,6 +96,10 @@ def evaluate(cfg: DictConfig) -> None:
 
     from sample import cfg_mean_nsamples_resolution, get_path
     onesample = cfg_mean_nsamples_resolution(cfg)
+
+    if cfg.jointstype == "vertices":
+        raise ValueError("No evaluation for vertices, sample the joints instead.")
+
     model_samples, amass, jointstype = get_samples_folder(cfg.folder,
                                                           jointstype=cfg.jointstype)
     split = cfg.split
@@ -110,8 +112,8 @@ def evaluate(cfg: DictConfig) -> None:
         save_path = save_paths
         logger.info(f"The outputs will be stored in: {save_path}")
     else:
-        avg_path, best_path = save_paths
-        logger.info(f"The outputs will be stored in: {avg_path} and {best_path}")
+        avg_path, best_path, worst_path = save_paths
+        logger.info(f"The outputs will be stored in: {avg_path} and {best_path} and {worst_path}")
 
     logger.info("Loading the libraries")
     import numpy as np
@@ -120,7 +122,7 @@ def evaluate(cfg: DictConfig) -> None:
     from hydra.utils import instantiate
     from temos.data.kit import load_mmm_keyid, load_amass_keyid
     from temos.data.utils import get_split_keyids
-    from temos.model.metrics import ComputeMetrics, ComputeMetricsBest
+    from temos.model.metrics import ComputeMetrics, ComputeMetricsBest, ComputeMetricsWorst
     logger.info("Libraries loaded")
 
     datapath = Path(cfg.path.datasets) / "kit"
@@ -138,6 +140,7 @@ def evaluate(cfg: DictConfig) -> None:
         CMetrics = ComputeMetrics(force_in_meter=force_in_meter)
     else:
         CMetrics_best = ComputeMetricsBest(force_in_meter=force_in_meter)
+        CMetrics_worst = ComputeMetricsWorst(force_in_meter=force_in_meter)
         CMetrics_avg = [ComputeMetrics(force_in_meter=force_in_meter) for index in range(cfg.number_of_samples)]
 
     logger.info(f"Computing the {split} metrics")
@@ -190,6 +193,7 @@ def evaluate(cfg: DictConfig) -> None:
 
         if not onesample:
             CMetrics_best.update(model_joints_all, ref_joints_all, length_all)
+            CMetrics_worst.update(model_joints_all, ref_joints_all, length_all)
 
     if onesample:
         metrics = sanitize(regroup_metrics(CMetrics.compute()))
@@ -202,6 +206,7 @@ def evaluate(cfg: DictConfig) -> None:
     else:
         # best metrics
         best_metrics = sanitize(regroup_metrics(CMetrics_best.compute()))
+        worst_metrics = sanitize(regroup_metrics(CMetrics_worst.compute()))
 
         avgs = []
         for index in range(cfg.number_of_samples):
@@ -210,12 +215,13 @@ def evaluate(cfg: DictConfig) -> None:
         # avg metrics
         avg_metrics = sanitize({key: np.mean([avg[key] for avg in avgs]) for key in avgs[0].keys()})
 
-        logger.info(f"All done, saving at {best_path} and {avg_path}")
+        logger.info(f"All done, saving at {best_path} and {avg_path} and {worst_path}")
         save_metric(avg_path, avg_metrics)
         save_metric(best_path, best_metrics)
+        save_metric(worst_path, worst_metrics)
         logger.info("Done.")
 
-        for name, metrics in [("avg", avg_metrics), ("best", best_metrics)]:
+        for name, metrics in [("avg", avg_metrics), ("best", best_metrics), ("worst", worst_metrics)]:
             logger.info(f"{name}")
             for key in ["APE_root", "AVE_root"]:
                 logger.info(f"  {key}: {metrics[key]}")
