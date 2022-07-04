@@ -12,6 +12,7 @@ mean: false
 number_of_samples: 1
 fact: 1
 jointstype: null
+gender: neutral
 
 tmp_path: /tmp/
 

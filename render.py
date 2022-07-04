@@ -24,7 +24,7 @@ def _render_cli(cfg: DictConfig):
 def extend_paths(path, keyids, *, onesample=True, number_of_samples=1):
     if not onesample:
         template_path = str(path / "KEYID_INDEX.npy")
-        paths = [template_path.replace("INDEX", str(index)) for i in range(number_of_samples)]
+        paths = [template_path.replace("INDEX", str(index)) for index in range(number_of_samples)]
     else:
         paths = [str(path / "KEYID.npy")]
 
@@ -54,7 +54,7 @@ def render_cli(cfg: DictConfig) -> None:
         if not cfg.infolder:
             model_samples, amass, jointstype = get_samples_folder(cfg.folder,
                                                                   jointstype=cfg.jointstype)
-            path = get_path(model_samples, cfg.split, onesample, cfg.mean, cfg.fact)
+            path = get_path(model_samples, cfg.gender, cfg.split, onesample, cfg.mean, cfg.fact)
         else:
             path = Path(cfg.folder)
 
