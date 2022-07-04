@@ -11,7 +11,7 @@ split: gtest
 mean: false
 number_of_samples: 1
 fact: 1
-jointstype: mmm
+jointstype: null
 
 tmp_path: /tmp/
 
@@ -24,10 +24,14 @@ res: high
 # for video: 1/8 frame rendered
 downsample: true
 
+infolder: false
+
 gt: false
 canonicalize: true
 exact_frame: 0.5
 num: 8
+
+vid_ext: webm
 
 always_on_floor: false
 

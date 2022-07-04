@@ -4,7 +4,7 @@ import os
 
 
 class Video:
-    def __init__(self, frame_path: str, fps: float = 12.5):
+    def __init__(self, frame_path: str, fps: float = 12.5, res="high"):
         frame_path = str(frame_path)
         self.fps = fps
 
@@ -14,7 +14,12 @@ class Video:
                       "temp_audiofile": "temp-audio.m4a",
                       "remove_temp": True}
 
-        self._conf = {"bitrate": "5000k",
+        if res == "low":
+            bitrate = "500k"
+        else:
+            bitrate = "5000k"
+
+        self._conf = {"bitrate": bitrate,
                       "fps": self.fps}
 
         # Load video
