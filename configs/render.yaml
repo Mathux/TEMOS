@@ -17,9 +17,11 @@ tmp_path: /tmp/
 
 logger_level: INFO
 
-quality: false
+quality: true
 cycle: ${quality}
 high_res: ${quality}
+
+white_back: true
 
 # for video: 1/8 frame rendered
 downsample: true

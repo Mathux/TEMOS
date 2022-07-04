@@ -3,7 +3,7 @@ import bpy
 # need to fix import first
 import math
 import numpy as np
-from .materials import colored_material
+from .materials import colored_material_diffuse_BSDF as colored_material
 
 
 kinematic_tree = [[0, 1, 2, 3, 4], [3, 5, 6, 7], [3, 8, 9, 10],

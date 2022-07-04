@@ -4,7 +4,6 @@ import sys
 import numpy as np
 import math
 
-from .materials import colored_material
 from .scene import setup_scene  # noqa
 from .floor import show_traj, plot_floor, get_trajectory
 from .vertices import prepare_vertices
@@ -34,18 +33,18 @@ def render(npydata, frames_folder, *, mode, faces_path,
            canonicalize=True,
            always_on_floor=False,
            cycle=True, high_res=True,
+           white_back=True,
            init=True):
     if init:
         # Setup the scene (lights / render engine / resolution etc)
-        setup_scene(cycle=cycle, high_res=high_res)
-
+        setup_scene(cycle=cycle, high_res=high_res, white_back=white_back)
 
     is_mesh = mesh_detect(npydata)
 
     # Put everything in this folder
     if mode == "video":
         if always_on_floor:
-            frames_folder += "_onfloor"
+            frames_folder += "_of"
         os.makedirs(frames_folder, exist_ok=True)
         # if it is a mesh, it is already downsampled
         if downsample and not is_mesh:
@@ -53,12 +52,13 @@ def render(npydata, frames_folder, *, mode, faces_path,
     elif mode == "sequence":
         img_name, ext = os.path.splitext(frames_folder)
         if always_on_floor:
-            img_name += "_onfloor"
+            img_name += "_of"
         img_path = f"{img_name}{ext}"
+
     elif mode == "frame":
         img_name, ext = os.path.splitext(frames_folder)
         if always_on_floor:
-            img_name += "_onfloor"
+            img_name += "_of"
         img_path = f"{img_name}_{exact_frame}{ext}"
 
     # remove X% of begining and end
@@ -115,6 +115,7 @@ def render(npydata, frames_folder, *, mode, faces_path,
 
         objname = data.load_in_blender(frameidx, mat)
         name = f"{str(index).zfill(4)}"
+
         if mode == "video":
             path = os.path.join(frames_folder, f"frame_{name}.png")
         else:
@@ -129,8 +130,8 @@ def render(npydata, frames_folder, *, mode, faces_path,
             render_current_frame(path)
             delete_objs(objname)
 
-    # bpy.ops.wm.save_as_mainfile(filepath="~/file.blend")
-    # exit()
+    bpy.ops.wm.save_as_mainfile(filepath="/Users/mathis/TEMOS_github/male_line_test.blend")
+    exit()
 
     # remove every object created
     delete_objs(imported_obj_names)

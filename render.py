@@ -81,6 +81,7 @@ def render_cli(cfg: DictConfig) -> None:
                      faces_path=cfg.faces_path,
                      downsample=cfg.downsample,
                      always_on_floor=cfg.always_on_floor,
+                     white_back=cfg.white_back,
                      init=init,
                      gt=cfg.gt)
 
