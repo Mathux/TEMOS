@@ -25,19 +25,13 @@ def render_current_frame(path):
 
 
 
-def render(npydata, frames_folder, *, mode, faces_path,
-           gt=False,
-           exact_frame=None,
-           num=8,
-           downsample=True,
-           canonicalize=True,
-           always_on_floor=False,
-           cycle=True, high_res=True,
-           white_back=True,
-           init=True):
+def render(npydata, frames_folder, *, mode, faces_path, gt=False,
+           exact_frame=None, num=8, downsample=True,
+           canonicalize=True, always_on_floor=False, denoising=True,
+           res="high", init=True):
     if init:
         # Setup the scene (lights / render engine / resolution etc)
-        setup_scene(cycle=cycle, high_res=high_res, white_back=white_back)
+        setup_scene(res=res, denoising=denoising)
 
     is_mesh = mesh_detect(npydata)
 

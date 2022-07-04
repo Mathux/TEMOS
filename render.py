@@ -74,14 +74,13 @@ def render_cli(cfg: DictConfig) -> None:
             frames_folder = path.replace(".npy", ".png")
 
         out = render(data, frames_folder,
-                     cycle=cfg.cycle, high_res=cfg.high_res,
+                     denoising=cfg.denoising, res=cfg.res,
                      canonicalize=cfg.canonicalize,
                      exact_frame=cfg.exact_frame,
                      num=cfg.num, mode=cfg.mode,
                      faces_path=cfg.faces_path,
                      downsample=cfg.downsample,
                      always_on_floor=cfg.always_on_floor,
-                     white_back=cfg.white_back,
                      init=init,
                      gt=cfg.gt)
 

@@ -2,7 +2,7 @@ import bpy
 from .materials import plane_mat  # noqa
 
 
-def setup_cycles(cycle=True, white_back=True):
+def setup_renderer(denoising=True):
     bpy.context.scene.render.engine = 'CYCLES'
     bpy.data.scenes[0].render.engine = "CYCLES"
     bpy.context.preferences.addons["cycles"].preferences.compute_device_type = "CUDA"
@@ -10,7 +10,7 @@ def setup_cycles(cycle=True, white_back=True):
     bpy.context.preferences.addons["cycles"].preferences.get_devices()
     print(bpy.context.preferences.addons["cycles"].preferences.compute_device_type)
 
-    if cycle:
+    if denoising:
         bpy.context.scene.cycles.use_denoising = True
 
     bpy.context.scene.render.tile_x = 256
@@ -18,25 +18,29 @@ def setup_cycles(cycle=True, white_back=True):
     bpy.context.scene.cycles.samples = 64
     # bpy.context.scene.cycles.denoiser = 'OPTIX'
 
-    # get transparent background
-    # which will we real white
-    if white_back:
-        bpy.context.scene.view_settings.view_transform = 'Standard'
-        bpy.context.scene.render.film_transparent = True
-        bpy.context.scene.display_settings.display_device = 'sRGB'
-        bpy.context.scene.view_settings.gamma = 1.2
-        bpy.context.scene.view_settings.exposure = -0.75
+    bpy.context.scene.view_settings.view_transform = 'Standard'
+    bpy.context.scene.render.film_transparent = True
+    bpy.context.scene.display_settings.display_device = 'sRGB'
+    bpy.context.scene.view_settings.gamma = 1.2
+    bpy.context.scene.view_settings.exposure = -0.75
 
 
 # Setup scene
-def setup_scene(cycle=True, high_res=True, white_back=False):
+def setup_scene(res="high", denoising=True):
     scene = bpy.data.scenes['Scene']
-    if high_res:
+    assert res in ["ultra", "high", "med", "low"]
+    if res == "high":
         scene.render.resolution_x = 1280
         scene.render.resolution_y = 1024
-    else:
+    elif res == "med":
         scene.render.resolution_x = 1280//2
         scene.render.resolution_y = 1024//2
+    elif res == "low":
+        scene.render.resolution_x = 1280//4
+        scene.render.resolution_y = 1024//4
+    elif res == "ultra":
+        scene.render.resolution_x = 1280*2
+        scene.render.resolution_y = 1024*2
 
     world = bpy.data.worlds['World']
     world.use_nodes = True
@@ -61,5 +65,5 @@ def setup_scene(cycle=True, high_res=True, white_back=False):
                              use_proportional_connected=False, use_proportional_projected=False)
     bpy.ops.object.select_all(action='DESELECT')
 
-    setup_cycles(cycle=cycle, white_back=white_back)
+    setup_renderer(denoising=denoising)
     return scene
