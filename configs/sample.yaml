@@ -21,6 +21,11 @@ last_ckpt_path: ${get_last_checkpoint:${folder},${ckpt_name}}
 # so with smpl rotations
 jointstype: mmm
 
+# if jointstype == vertices
+# can specify the gender
+# neutral / male / female
+gender: neutral
+
 # Composing nested config with default
 defaults:
   - data: null

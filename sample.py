@@ -87,6 +87,11 @@ def sample(newcfg: DictConfig) -> None:
 
     logger.info("Loading model")
     # Instantiate all modules specified in the configs
+
+    assert cfg.gender in ["male", "female", "neutral"]
+    logger.info(f"The topology will be {cfg.gender}.")
+    cfg.model.transforms.rots2joints.gender = cfg.gender
+
     model = instantiate(cfg.model,
                         nfeats=data_module.nfeats,
                         logger_name="none",
