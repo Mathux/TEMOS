@@ -124,8 +124,8 @@ def render(npydata, frames_folder, *, mode, faces_path, gt=False,
             render_current_frame(path)
             delete_objs(objname)
 
-    bpy.ops.wm.save_as_mainfile(filepath="/Users/mathis/TEMOS_github/male_line_test.blend")
-    exit()
+    # bpy.ops.wm.save_as_mainfile(filepath="/Users/mathis/TEMOS_github/male_line_test.blend")
+    # exit()
 
     # remove every object created
     delete_objs(imported_obj_names)
