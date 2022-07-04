@@ -39,6 +39,10 @@ def render_cli(cfg: DictConfig) -> None:
     if cfg.npy is None:
         if cfg.folder is None or cfg.split is None:
             raise ValueError("You should either use npy=XXX.npy, or folder=XXX and split=XXX")
+        # only them can be rendered for now
+        if not cfg.infolder:
+            jointstype = cfg.jointstype
+            assert ("mmm" in jointstype) or jointstype == "vertices"
 
         from temos.data.utils import get_split_keyids
         from pathlib import Path
@@ -47,11 +51,13 @@ def render_cli(cfg: DictConfig) -> None:
         keyids = get_split_keyids(path=Path(cfg.path.datasets)/ "kit-splits", split=cfg.split)
 
         onesample = cfg_mean_nsamples_resolution(cfg)
-        model_samples, amass, jointstype = get_samples_folder(cfg.folder,
-                                                              jointstype=cfg.jointstype)
-        assert "mmm" in jointstype
+        if not cfg.infolder:
+            model_samples, amass, jointstype = get_samples_folder(cfg.folder,
+                                                                  jointstype=cfg.jointstype)
+            path = get_path(model_samples, cfg.split, onesample, cfg.mean, cfg.fact)
+        else:
+            path = Path(cfg.folder)
 
-        path = get_path(model_samples, cfg.split, onesample, cfg.mean, cfg.fact)
         paths = extend_paths(path, keyids, onesample=onesample, number_of_samples=cfg.number_of_samples)
     else:
         paths = [cfg.npy]
@@ -73,8 +79,13 @@ def render_cli(cfg: DictConfig) -> None:
         else:
             frames_folder = path.replace(".npy", ".png")
 
+        if cfg.mode == "video":
+            vid_path = path.replace(".npy", f".{cfg.vid_ext}")
+            if os.path.exists(vid_path):
+                continue
+
         out = render(data, frames_folder,
-                     cycle=cfg.cycle, high_res=cfg.high_res,
+                     denoising=cfg.denoising, res=cfg.res,
                      canonicalize=cfg.canonicalize,
                      exact_frame=cfg.exact_frame,
                      num=cfg.num, mode=cfg.mode,
@@ -88,11 +99,10 @@ def render_cli(cfg: DictConfig) -> None:
 
         if cfg.mode == "video":
             if cfg.downsample:
-                video = Video(frames_folder, fps=12.5)
+                video = Video(frames_folder, fps=12.5, res=cfg.res)
             else:
-                video = Video(frames_folder, fps=100.0)
+                video = Video(frames_folder, fps=100.0, res=cfg.res)
 
-            vid_path = path.replace(".npy", ".mp4")
             video.save(out_path=vid_path)
             logger.info(vid_path)
 

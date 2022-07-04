@@ -1,15 +1,15 @@
 import numpy as np
 
-from .materials import colored_material
+from .materials import body_material
 
 # green
-# GT_SMPL = colored_material(0.009, 0.214, 0.029)
-GT_SMPL = colored_material(0.035, 0.415, 0.122)
+# GT_SMPL = body_material(0.009, 0.214, 0.029)
+GT_SMPL = body_material(0.035, 0.415, 0.122)
 
 # blue
-# GEN_SMPL = colored_material(0.022, 0.129, 0.439)
+# GEN_SMPL = body_material(0.022, 0.129, 0.439)
 # Blues => cmap(0.87)
-GEN_SMPL = colored_material(0.035, 0.322, 0.615)
+GEN_SMPL = body_material(0.035, 0.322, 0.615)
 
 
 class Meshes:
@@ -31,10 +31,12 @@ class Meshes:
     def get_sequence_mat(self, frac):
         import matplotlib
         cmap = matplotlib.cm.get_cmap('Blues')
-        begin = 0.60
+        # begin = 0.60
+        # end = 0.90
+        begin = 0.50
         end = 0.90
         rgbcolor = cmap(begin + (end-begin)*frac)
-        mat = colored_material(*rgbcolor)
+        mat = body_material(*rgbcolor)
         return mat
 
     def get_root(self, index):

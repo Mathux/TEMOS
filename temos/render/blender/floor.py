@@ -1,5 +1,5 @@
 import bpy
-from .materials import colored_material as get_mat
+from .materials import floot_mat
 
 
 def get_trajectory(data, is_mesh):
@@ -12,7 +12,7 @@ def get_trajectory(data, is_mesh):
     return trajectory
 
 
-def plot_floor(data):
+def plot_floor(data, big_plane=False):
     # Create a floor
     minx, miny, _ = data.min(axis=(0, 1))
     maxx, maxy, _ = data.max(axis=(0, 1))
@@ -30,20 +30,21 @@ def plot_floor(data):
     obj = bpy.data.objects["Plane"]
     obj.name = "SmallPlane"
     obj.data.name = "SmallPlane"
-    obj.active_material = get_mat(0.1, 0.1, 0.1, 1)
+    obj.active_material = floot_mat(color=(0.2, 0.2, 0.2, 1))
 
-    location = ((maxx + minx)/2, (maxy + miny)/2, -0.01)
-    bpy.ops.mesh.primitive_plane_add(size=2, enter_editmode=False, align='WORLD', location=location, scale=(1, 1, 1))
+    if big_plane:
+        location = ((maxx + minx)/2, (maxy + miny)/2, -0.01)
+        bpy.ops.mesh.primitive_plane_add(size=2, enter_editmode=False, align='WORLD', location=location, scale=(1, 1, 1))
 
-    bpy.ops.transform.resize(value=[2*x for x in scale], orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL',
-                             constraint_axis=(False, True, False), mirror=True, use_proportional_edit=False,
-                             proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False,
-                             use_proportional_projected=False, release_confirm=True)
+        bpy.ops.transform.resize(value=[2*x for x in scale], orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL',
+                                 constraint_axis=(False, True, False), mirror=True, use_proportional_edit=False,
+                                 proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False,
+                                 use_proportional_projected=False, release_confirm=True)
 
-    obj = bpy.data.objects["Plane"]
-    obj.name = "BigPlane"
-    obj.data.name = "BigPlane"
-    obj.active_material = get_mat(0.2, 0.2, 0.2, 1)
+        obj = bpy.data.objects["Plane"]
+        obj.name = "BigPlane"
+        obj.data.name = "BigPlane"
+        obj.active_material = floor_mat(color=(0.2, 0.2, 0.2, 1))
 
 
 def show_traj(coords):
