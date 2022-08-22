@@ -3,6 +3,6 @@ _target_: pytorch_lightning.callbacks.ModelCheckpoint
 filename: latest-{epoch}
 monitor: step
 mode: max
-every_n_epochs: 200
+every_n_epochs: 500
 save_top_k: -1
 save_last: false
