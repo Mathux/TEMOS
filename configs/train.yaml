@@ -22,8 +22,8 @@ defaults:
   - logger: none
   - callback: base
   - /path@path
-  - override hydra/job_logging: custom
-  - override hydra/hydra_logging: custom
+  - override hydra/job_logging: rich # custom
+  - override hydra/hydra_logging: rich # custom
   - _self_
 
 data:

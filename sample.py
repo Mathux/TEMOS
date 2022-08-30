@@ -115,39 +115,42 @@ def sample(newcfg: DictConfig) -> None:
     dataset = getattr(data_module, f"{cfg.split}_dataset")
 
     from temos.data.sampling import upsample
-    from tqdm import tqdm
+    from rich.progress import Progress
+    from rich.progress import track
 
     # remove printing for changing the seed
     logging.getLogger('pytorch_lightning.utilities.seed').setLevel(logging.WARNING)
 
     import torch
     with torch.no_grad():
-        for keyid in (pbar := tqdm(dataset.keyids)):
-            pbar.set_description(f"Processing {keyid}")
-            for index in range(cfg.number_of_samples):
-                one_data = dataset.load_keyid(keyid)
-                # batch_size = 1 for reproductability
-                batch = collate_datastruct_and_text([one_data])
-                # fix the seed
-                pl.seed_everything(index)
+        with Progress(transient=True) as progress:
+            task = progress.add_task("Sampling", total=len(dataset.keyids))
+            for keyid in dataset.keyids:
+                progress.update(task, description=f"Sampling {keyid}..")
+                for index in range(cfg.number_of_samples):
+                    one_data = dataset.load_keyid(keyid)
+                    # batch_size = 1 for reproductability
+                    batch = collate_datastruct_and_text([one_data])
+                    # fix the seed
+                    pl.seed_everything(index)
 
-                if cfg.jointstype == "vertices":
-                    vertices = model(batch)[0]
-                    motion = vertices.numpy()
-                    # no upsampling here to keep memory
-                    # vertices = upsample(vertices, cfg.data.framerate, 100)
-                else:
-                    joints = model(batch)[0]
-                    motion = joints.numpy()
-                    # upscaling to compare with other methods
-                    motion = upsample(motion, cfg.data.framerate, 100)
+                    if cfg.jointstype == "vertices":
+                        vertices = model(batch)[0]
+                        motion = vertices.numpy()
+                        # no upsampling here to keep memory
+                        # vertices = upsample(vertices, cfg.data.framerate, 100)
+                    else:
+                        joints = model(batch)[0]
+                        motion = joints.numpy()
+                        # upscaling to compare with other methods
+                        motion = upsample(motion, cfg.data.framerate, 100)
 
-                if cfg.number_of_samples > 1:
-                    npypath = path / f"{keyid}_{index}.npy"
-                else:
-                    npypath = path / f"{keyid}.npy"
-
-                np.save(npypath, motion)
+                    if cfg.number_of_samples > 1:
+                        npypath = path / f"{keyid}_{index}.npy"
+                    else:
+                        npypath = path / f"{keyid}.npy"
+                    np.save(npypath, motion)
+                progress.update(task, advance=1)
 
     logger.info("All the sampling are done")
     logger.info(f"All the sampling are done. You can find them here:\n{path}")

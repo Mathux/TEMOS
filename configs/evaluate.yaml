@@ -23,8 +23,8 @@ logger_level: INFO
 defaults:
   - /path@path
   - /transforms/rots2joints/smplh@rots2joints
-  - override hydra/job_logging: console
-  - override hydra/hydra_logging: console
+  - override hydra/job_logging: rich # console
+  - override hydra/hydra_logging: rich # console
   - _self_
 
 machine:

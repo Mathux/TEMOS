@@ -24,22 +24,22 @@ def regroup_metrics(metrics):
         APE_pose = dico.pop("APE_pose")
         for name, ape in zip(pose_names, APE_pose):
             dico[f"APE_pose_{name}"] = ape
-    
+
     if "APE_joints" in dico:
         APE_joints = dico.pop("APE_joints")
         for name, ape in zip(mmm_joints, APE_joints):
             dico[f"APE_joints_{name}"] = ape
-    
+
     if "AVE_pose" in dico:
         AVE_pose = dico.pop("AVE_pose")
         for name, ave in zip(pose_names, AVE_pose):
             dico[f"AVE_pose_{name}"] = ave
-    
+
     if "AVE_joints" in dico:
         AVE_joints = dico.pop("AVE_joints")
         for name, ape in zip(mmm_joints, AVE_joints):
             dico[f"AVE_joints_{name}"] = ave
-    
+
     return dico
 
 def sanitize(dico):

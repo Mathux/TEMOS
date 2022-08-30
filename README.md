@@ -43,7 +43,7 @@ pip install torchmetrics==0.7
 pip install hydra-core --upgrade
 pip install hydra_colorlog --upgrade
 pip install shortuuid
-pip install tqdm
+pip install rich
 pip install pandas
 pip install transformers
 pip install psutil

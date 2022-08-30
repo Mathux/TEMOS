@@ -9,7 +9,6 @@ import pandas
 import torch
 from torch import nn
 from torch.utils.data import Dataset
-from tqdm import tqdm
 from pathlib import Path
 
 from temos.tools.easyconvert import matrix_to, axis_angle_to
@@ -17,6 +16,8 @@ from temos.transforms import Transform
 from temos.data.sampling import subsample
 from temos.data.tools.smpl import smpl_data_to_matrix_and_trans
 
+from rich.progress import track
+        
 from .base import BASEDataModule
 from .utils import get_split_keyids
 
@@ -90,7 +91,7 @@ class KIT(Dataset):
                 kitml_correspondances = json.load(correspondance_path_file)
 
         if progress_bar:
-            enumerator = enumerate(tqdm(keyids, f"Loading KIT {split}"))
+            enumerator = enumerate(track(keyids, f"Loading KIT {split}"))
         else:
             enumerator = enumerate(keyids)
 

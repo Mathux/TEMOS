@@ -50,11 +50,14 @@ def train(cfg: DictConfig) -> None:
         "AVE root": "Metrics/AVE_root",
         "AVE mean pose": "Metrics/AVE_mean_pose"
     }
+
     callbacks = [
+        pl.callbacks.RichProgressBar(),
         instantiate(cfg.callback.progress, metric_monitor=metric_monitor),
         instantiate(cfg.callback.latest_ckpt),
         instantiate(cfg.callback.last_ckpt)
     ]
+
     logger.info("Callbacks initialized")
 
     logger.info("Loading trainer")
