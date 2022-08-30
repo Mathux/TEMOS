@@ -6,7 +6,7 @@
 </div>
 
 ## Description
-Official PyTorch implementation of the paper [**"TEMOS: Generating diverse human motions from textual descriptions"**](http://arxiv.org/abs/2204.14109).
+Official PyTorch implementation of the paper [**"TEMOS: Generating diverse human motions from textual descriptions"**](http://arxiv.org/abs/2204.14109), [ECCV 2022 (Oral)](https://eccv2022.ecva.net).
 
 Please visit our [**webpage**](https://mathis.petrovich.fr/temos/) for more details.
 
