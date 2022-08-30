@@ -45,9 +45,17 @@ OmegaConf.register_new_resolver("get_last_checkpoint", get_last_checkpoint)
 OmegaConf.register_new_resolver("get_kitname", get_kitname)
 
 
-# Remove warnings
+# Remove some warnings
 warnings.filterwarnings(
     "ignore", ".*Trying to infer the `batch_size` from an ambiguous collection.*"
+)
+
+warnings.filterwarnings(
+    "ignore", ".*pyprof will be removed by the end of June.*"
+)
+
+warnings.filterwarnings(
+    "ignore", ".*pandas.Int64Index is deprecated.*"
 )
 
 warnings.filterwarnings(
