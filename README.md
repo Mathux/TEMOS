@@ -142,8 +142,7 @@ This folder is printed during logging, it should look like ``outputs/kit-mmm-xyz
 
 #### Training
 - ``trainer=gpu``: training with CUDA, on an automatically selected GPU (default)
-- ``trainer=cpu``: training on the CPU
-
+- ``trainer=cpu``: training on the CPU (not recommended)
 
 ## How to generate motions with TEMOS
 ### Dataset splits
