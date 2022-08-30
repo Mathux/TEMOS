@@ -13,6 +13,11 @@ fact: 1
 # only needed for amass
 jointstype: mmm
 
+# if jointstype == vertices or mmm
+# can specify the gender
+# neutral / male / female
+gender: neutral
+
 logger_level: INFO
 
 defaults:
