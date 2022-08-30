@@ -1,7 +1,9 @@
 hydra:
   run:
     dir: outputs/${data.dataname}/${experiment}/${run_id}
-
+  job: # automatically go to the job folder (needed for hydra > 1.2 with new behavior)
+    chdir: true
+    
 # Global configurations shared between different modules
 experiment: baseline
 

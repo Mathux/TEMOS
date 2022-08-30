@@ -9,7 +9,7 @@ import temos.launch.prepare  # noqa
 logger = logging.getLogger(__name__)
 
 
-@hydra.main(config_path="configs", config_name="sample")
+@hydra.main(version_base=None, config_path="configs", config_name="sample")
 def _sample(cfg: DictConfig):
     return sample(cfg)
 

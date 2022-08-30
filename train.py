@@ -6,7 +6,7 @@ import temos.launch.prepare  # noqa
 logger = logging.getLogger(__name__)
 
 
-@hydra.main(config_path="configs", config_name="train")
+@hydra.main(version_base=None, config_path="configs", config_name="train")
 def _train(cfg: DictConfig):
     cfg.trainer.enable_progress_bar = True
     return train(cfg)
