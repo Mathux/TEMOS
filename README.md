@@ -60,7 +60,7 @@ Use the code from [Ghosh et al.](https://github.com/anindita127/Complextext2anim
 "
 These motions are process by the Master Motor Map (MMM) framework. To be able to generate motions with SMPL body model, please look at the next section.
 
-#### (Optional) Motion process with MoSh++ (in AMASS)
+#### (Optional) Motion processed with MoSh++ (in AMASS)
 **Be sure to read and follow their license agreements, and cite accordingly.**
 
 Create this folder:
@@ -68,7 +68,7 @@ Create this folder:
 mkdir datasets/AMASS/
 ```
 
-Go to the [AMASS website] (https://amass.is.tuebingen.mpg.de/download.php), register and go to the Download tab. Then download the "SMPL+H G" files corresponding to the datasets [KIT, CMU, EKUT] into the "datasets/AMASS" directory and uncompress the archives:
+Go to the [AMASS website](https://amass.is.tuebingen.mpg.de/download.php), register and go to the Download tab. Then download the "SMPL+H G" files corresponding to the datasets [KIT, CMU, EKUT] into the ``datasets/AMASS`` directory and uncompress the archives:
 
 ```bash
 cd datasets/AMASS/
@@ -88,14 +88,14 @@ cd ..
 ```
 
 ### 4. (Optional) SMPL body model
-This is only useful if you want to use generate 3D human meshes like in the teaser. In this case, you also need a part of the AMASS dataset (see below).
+This is only useful if you want to use generate 3D human meshes like in the teaser. In this case, you also need a subset of the AMASS dataset (see instructions below).
 
 Create this folder:
 ```bash
 mkdir deps/smplh/
 ```
 
-Go to the [MANO website](https://mano.is.tue.mpg.de/download.php, register and go to the Download tab.
+Go to the [MANO website](https://mano.is.tue.mpg.de/download.php), register and go to the Download tab.
 
 - Click on "Models & Code" to download ``mano_v1_2.zip`` and place it in the folder ``deps/smplh/``.
 - Click on "Extended SMPL+H model" to download ``smplh.tar.xz`` and place it in the folder ``deps/smplh/``.
