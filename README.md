@@ -58,10 +58,25 @@ The code was tested on Python 3.9.7 and PyTorch 1.10.0.
 
 Use the code from [Ghosh et al.](https://github.com/anindita127/Complextext2animation) or [JL2P](https://github.com/chahuja/language2pose) to download and prepare the kit dataset (extraction of xyz joints coodinates data from axis-angle Master Motor Map). Move or copy all the files which ends with "_meta.json", "_annotations.json" and "_fke.csv" inside the ``datasets/kit`` folder.
 "
+These motions are process by the Master Motor Map (MMM) framework. To be able to generate motions with SMPL body model, please look at the next section.
 
-#### AMASS dataset
-WIP: instructions to be released soon
+#### (Optional) Motion process with MoSh++ (in AMASS)
+**Be sure to read and follow their license agreements, and cite accordingly.**
 
+Create this folder:
+```bash
+mkdir datasets/AMASS/
+```
+
+Go to the [AMASS website] (https://amass.is.tuebingen.mpg.de/download.php), register and go to the Download tab. Then download the "SMPL+H G" files corresponding to the datasets [KIT, CMU, EKUT] into the "datasets/AMASS" directory and uncompress the archives:
+
+```bash
+cd datasets/AMASS/
+tar xfv CMU.tar.bz2
+tar xfv KIT.tar.bz2
+tar xfv EKUT.tar.bz2
+cd ../../
+```
 
 ### 3. Download text model dependencies
 #### Download distilbert from __Hugging Face__
@@ -72,12 +87,32 @@ git clone https://huggingface.co/distilbert-base-uncased
 cd ..
 ```
 
-### 4. SMPL body model
-WIP: instructions to be released soon
+### 4. (Optional) SMPL body model
+This is only useful if you want to use generate 3D human meshes like in the teaser. In this case, you also need a part of the AMASS dataset (see below).
+
+Create this folder:
+```bash
+mkdir deps/smplh/
+```
+
+Go to the [MANO website](https://mano.is.tue.mpg.de/download.php, register and go to the Download tab.
+
+- Click on "Models & Code" to download ``mano_v1_2.zip`` and place it in the folder ``deps/smplh/``.
+- Click on "Extended SMPL+H model" to download ``smplh.tar.xz`` and place it in the folder ``deps/smplh/``.
+
+The next step is to extract the archives, merge the hands from ``mano_v1_2`` into the ``Extended SMPL+H models``, and remove any chumpy dependency.
+All of this can be done using with the following commands. (I forked both scripts from this repo [SMPLX repo](https://github.com/vchoutas/smplx/tree/master/tools), updated them to Python 3, merged them, and made it compatible with ``.npz`` files).
 
 
-### 5. (Optional) Donwload pre-trained models
-WIP: instructions to be released soon
+```bash
+pip install scipy chumpy
+bash prepare/smplh.sh
+```
+
+This will create ``SMPLH_FEMALE.npz``, ``SMPLH_MALE.npz``, ``SMPLH_NEUTRAL.npz`` inside the ``deps/smplh`` folder.
+
+### 5. (Optional) Download pre-trained models
+WIP: instructions to be released very soon
 
 
 ## How to train TEMOS :rocket:
