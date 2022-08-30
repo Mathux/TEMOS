@@ -1,7 +1,7 @@
-auto_select_gpus: ${machine.trainer.auto_select_gpus}
 benchmark: False
 max_epochs: 1001
-gpus: ${machine.trainer.gpus}
+accelerator: gpu
+devices: 1
 log_every_n_steps: 1
 deterministic: False
 detect_anomaly: False

@@ -1,6 +1,4 @@
 import logging
-import tqdm
-
 
 class LevelsFilter(logging.Filter):
     def __init__(self, levels):
@@ -32,6 +30,7 @@ class TqdmLoggingHandler(logging.Handler):
         super().__init__(level)
 
     def emit(self, record):
+        import tqdm
         try:
             msg = self.format(record)
             tqdm.tqdm.write(msg)

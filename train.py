@@ -6,7 +6,7 @@ import temos.launch.prepare  # noqa
 logger = logging.getLogger(__name__)
 
 
-@hydra.main(config_path="configs", config_name="train")
+@hydra.main(version_base=None, config_path="configs", config_name="train")
 def _train(cfg: DictConfig):
     cfg.trainer.enable_progress_bar = True
     return train(cfg)
@@ -50,11 +50,14 @@ def train(cfg: DictConfig) -> None:
         "AVE root": "Metrics/AVE_root",
         "AVE mean pose": "Metrics/AVE_mean_pose"
     }
+
     callbacks = [
+        pl.callbacks.RichProgressBar(),
         instantiate(cfg.callback.progress, metric_monitor=metric_monitor),
         instantiate(cfg.callback.latest_ckpt),
         instantiate(cfg.callback.last_ckpt)
     ]
+
     logger.info("Callbacks initialized")
 
     logger.info("Loading trainer")

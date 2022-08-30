@@ -7,7 +7,8 @@ __pycache__/
 .vscode/
 outputs/
 gifs/
-deps/distilbert-base-uncased/
+deps/distilbert-base-uncased
+deps/smplh
 datasets/
 *.ckpt
 *.gif

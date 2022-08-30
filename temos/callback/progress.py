@@ -25,10 +25,11 @@ class ProgressLogger(Callback):
         if trainer.sanity_checking:
             logger.info("Sanity checking ok.")
 
-    def on_train_epoch_end(self, trainer: Trainer, pl_module: LightningModule, **kwargs) -> None:
+    def on_train_epoch_end(self, trainer: Trainer, pl_module: LightningModule, padding=False, **kwargs) -> None:
         metric_format = f"{{:.{self.precision}e}}"
         line = f"Epoch {trainer.current_epoch}"
-        line = f"{line:>{len('Epoch xxxx')}}"  # Right padding
+        if padding:
+            line = f"{line:>{len('Epoch xxxx')}}"  # Right padding
         metrics_str = []
 
         losses_dict = trainer.callback_metrics

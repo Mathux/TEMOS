@@ -10,7 +10,7 @@ import temos.launch.prepare  # noqa
 logger = logging.getLogger(__name__)
 
 
-@hydra.main(config_path="configs", config_name="evaluate")
+@hydra.main(version_base=None, config_path="configs", config_name="evaluate")
 def _evaluate(cfg: DictConfig):
     return evaluate(cfg)
 
@@ -20,23 +20,25 @@ def regroup_metrics(metrics):
     pose_names = mmm_joints[1:]
     dico = {key: val.numpy() for key, val in metrics.items()}
 
-    APE_pose = dico.pop("APE_pose")
-    APE_joints = dico.pop("APE_joints")
+    if "APE_pose" in dico:
+        APE_pose = dico.pop("APE_pose")
+        for name, ape in zip(pose_names, APE_pose):
+            dico[f"APE_pose_{name}"] = ape
 
-    for name, ape in zip(pose_names, APE_pose):
-        dico[f"APE_pose_{name}"] = ape
+    if "APE_joints" in dico:
+        APE_joints = dico.pop("APE_joints")
+        for name, ape in zip(mmm_joints, APE_joints):
+            dico[f"APE_joints_{name}"] = ape
 
-    for name, ape in zip(mmm_joints, APE_joints):
-        dico[f"APE_joints_{name}"] = ape
+    if "AVE_pose" in dico:
+        AVE_pose = dico.pop("AVE_pose")
+        for name, ave in zip(pose_names, AVE_pose):
+            dico[f"AVE_pose_{name}"] = ave
 
-    AVE_pose = dico.pop("AVE_pose")
-    AVE_joints = dico.pop("AVE_joints")
-
-    for name, ave in zip(pose_names, AVE_pose):
-        dico[f"AVE_pose_{name}"] = ave
-
-    for name, ape in zip(mmm_joints, AVE_joints):
-        dico[f"AVE_joints_{name}"] = ave
+    if "AVE_joints" in dico:
+        AVE_joints = dico.pop("AVE_joints")
+        for name, ape in zip(mmm_joints, AVE_joints):
+            dico[f"AVE_joints_{name}"] = ave
 
     return dico
 
@@ -104,7 +106,7 @@ def evaluate(cfg: DictConfig) -> None:
                                                           jointstype=cfg.jointstype)
     split = cfg.split
 
-    path = get_path(model_samples, cfg.split, onesample, cfg.mean, cfg.fact)
+    path = get_path(model_samples, cfg.gender, cfg.split, onesample, cfg.mean, cfg.fact)
     file_path = f"amass_metrics_{split}" if amass else f"metrics_{split}"
 
     save_paths = get_metric_paths(model_samples, amass, cfg.split, onesample, cfg.mean, cfg.fact)

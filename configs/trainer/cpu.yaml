@@ -1,7 +1,7 @@
 auto_select_gpus: false
 benchmark: False
 max_epochs: 1001
-gpus: 0
+accelerator: cpu
 log_every_n_steps: 1
 deterministic: False
 detect_anomaly: False

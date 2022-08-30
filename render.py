@@ -16,7 +16,7 @@ from omegaconf import DictConfig
 logger = logging.getLogger(__name__)
 
 
-@hydra.main(config_path="configs", config_name="render")
+@hydra.main(version_base=None, config_path="configs", config_name="render")
 def _render_cli(cfg: DictConfig):
     return render_cli(cfg)
 
