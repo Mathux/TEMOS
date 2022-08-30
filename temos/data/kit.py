@@ -248,13 +248,13 @@ def load_amass_keyid(keyid, amass_path, *, correspondances):
     smpl_keyid_path = correspondances[keyid]["path"]
 
     if identifier == "kit":
-        smpl_datapath = Path(amass_path) / "KIT" / "KIT" / smpl_keyid_path
+        smpl_datapath = Path(amass_path) / "KIT" / smpl_keyid_path
     elif identifier == "cmu":
-        smpl_datapath = Path(amass_path) / "CMU" / "CMU" / smpl_keyid_path
+        smpl_datapath = Path(amass_path) / "CMU" / smpl_keyid_path
 
         if not os.path.exists(smpl_datapath):
             # try with EKUT folder instead
-            smpl_datapath = Path(amass_path) / "EKUT" / "EKUT" / smpl_keyid_path
+            smpl_datapath = Path(amass_path) / "EKUT" / smpl_keyid_path
 
             # File not found
             if not os.path.exists(smpl_datapath):
