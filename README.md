@@ -225,7 +225,7 @@ In any case, after the installation, please do step 5. to install the dependenci
 
 1. Please follow the [instructions](https://www.blender.org/download/lts/2-93/) to install blender 2.93 on your operating system. Please install exactly this version.
 2. Locate the blender executable if it is not in your path. For the following commands, please replace ``blender`` with the path to your executable (or create a symbolic link or use an alias).
-   - On Linux, it could be in ``/usr/bin/blender`` (already in your path).
+   - On Linux, it could be in ``/usr/bin/blender`` or ``/snap/bin/blender`` (already in your path).
    - On macOS, it could be in ``/Applications/Blender.app/Contents/MacOS/Blender`` (not in your path)
 3. Check that the correct version is installed:
    - ``blender --background --version`` should return "Blender 2.93.X".
