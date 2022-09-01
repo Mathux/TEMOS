@@ -36,9 +36,9 @@ class TEMOS(BaseModel):
         self.motiondecoder = instantiate(motiondecoder, nfeats=nfeats)
         self.optimizer = instantiate(optim, params=self.parameters())
 
-        self._losses = MetricCollection({split: instantiate(losses, vae=vae,
-                                                            _recursive_=False)
-                                         for split in ["losses_train", "losses_test", "losses_val"]})
+        self._losses = torch.nn.ModuleDict({split: instantiate(losses, vae=vae,
+                                                               _recursive_=False)
+                                            for split in ["losses_train", "losses_test", "losses_val"]})
         self.losses = {key: self._losses["losses_" + key] for key in ["train", "test", "val"]}
 
         self.metrics = ComputeMetrics()

@@ -1,19 +1,17 @@
 import hydra
 import torch
 
-from torchmetrics import Metric
+from torch.nn import Module
 
-
-class TemosComputeLosses(Metric):
+class TemosComputeLosses(Module):
     def __init__(self, vae: bool,
                  mode: str,
                  loss_on_both: bool = False,
                  force_loss_on_jfeats: bool = True,
                  ablation_no_kl_combine: bool = False,
                  ablation_no_motionencoder: bool = False,
-                 ablation_no_kl_gaussian: bool = False,
-                 dist_sync_on_step=False, **kwargs):
-        super().__init__(dist_sync_on_step=dist_sync_on_step)
+                 ablation_no_kl_gaussian: bool = False, **kwargs):
+        super().__init__()
 
         # Save parameters
         self.vae = vae
@@ -52,9 +50,11 @@ class TemosComputeLosses(Metric):
                 losses.append("latent_manifold")
         losses.append("total")
 
+        self.losses_values = {}
         for loss in losses:
-            self.add_state(loss, default=torch.tensor(0.0), dist_reduce_fx="sum")
-        self.add_state("count", default=torch.tensor(0), dist_reduce_fx="sum")
+            self.register_buffer(loss, torch.tensor(0.0))
+
+        self.register_buffer("count", torch.tensor(0.0))
         self.losses = losses
 
         # Instantiate loss functions
@@ -96,12 +96,14 @@ class TemosComputeLosses(Metric):
         return total
 
     def compute(self, split):
-        count = getattr(self, "count")
+        count = self.count
+        # return {loss: self.losses_values[loss]/count for loss in self.losses}
         return {loss: getattr(self, loss)/count for loss in self.losses}
 
     def _update_loss(self, loss: str, outputs, inputs):
         # Update the loss
         val = self._losses_func[loss](outputs, inputs)
+        # self.losses_values[loss] += val.detach()
         getattr(self, loss).__iadd__(val.detach())
         # Return a weighted sum
         weighted_loss = self._params[loss] * val
