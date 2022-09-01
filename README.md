@@ -107,7 +107,28 @@ bash prepare/smplh.sh
 This will create ``SMPLH_FEMALE.npz``, ``SMPLH_MALE.npz``, ``SMPLH_NEUTRAL.npz`` inside the ``deps/smplh`` folder.
 
 ### 5. (Optional) Download pre-trained models
-WIP: instructions to be released very soon
+Make sure to have gdown installed
+
+```bash
+pip install --user gdown
+```
+
+Then, please run this command line:
+
+```bash
+bash prepare/download_pretrained_models.sh
+```
+
+It will one pretrained models for each type of data (see Section [datasets](#datasets) below for more information).
+```
+pretrained_models
+├── kit-amass-rot
+│   └── 1cp6dwpa
+├── kit-amass-xyz
+│   └── 5xp9647f
+└── kit-mmm-xyz
+    └── 3l49g7hv
+```
 
 
 ## How to train TEMOS :rocket:
