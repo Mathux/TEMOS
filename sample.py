@@ -22,10 +22,11 @@ def cfg_mean_nsamples_resolution(cfg):
     return cfg.number_of_samples == 1
 
 
-def get_path(sample_path: Path, gender: str, split: str, onesample: bool, mean: bool, fact: float):
+def get_path(sample_path: Path, is_amass: bool, gender: str, split: str, onesample: bool, mean: bool, fact: float):
     extra_str = ("_mean" if mean else "") if onesample else "_multi"
     fact_str = "" if fact == 1 else f"{fact}_"
-    path = sample_path / f"{fact_str}{gender}_{split}{extra_str}"
+    gender_str = gender + "_" if is_amass else ""
+    path = sample_path / f"{fact_str}{gender_str}{split}{extra_str}"
     return path
 
 
@@ -70,7 +71,7 @@ def sample(newcfg: DictConfig) -> None:
     else:
         storage = output_dir / "samples"
 
-    path = get_path(storage, cfg.gender, cfg.split, onesample, cfg.mean, cfg.fact)
+    path = get_path(storage, "amass" in cfg.data.dataname, cfg.gender, cfg.split, onesample, cfg.mean, cfg.fact)
     path.mkdir(exist_ok=True, parents=True)
 
     logger.info(f"{path}")

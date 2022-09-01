@@ -54,7 +54,7 @@ def render_cli(cfg: DictConfig) -> None:
         if not cfg.infolder:
             model_samples, amass, jointstype = get_samples_folder(cfg.folder,
                                                                   jointstype=cfg.jointstype)
-            path = get_path(model_samples, cfg.gender, cfg.split, onesample, cfg.mean, cfg.fact)
+            path = get_path(model_samples, amass, cfg.gender, cfg.split, onesample, cfg.mean, cfg.fact)
         else:
             path = Path(cfg.folder)
 

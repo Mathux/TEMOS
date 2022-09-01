@@ -106,7 +106,7 @@ def evaluate(cfg: DictConfig) -> None:
                                                           jointstype=cfg.jointstype)
     split = cfg.split
 
-    path = get_path(model_samples, cfg.gender, cfg.split, onesample, cfg.mean, cfg.fact)
+    path = get_path(model_samples, amass, cfg.gender, cfg.split, onesample, cfg.mean, cfg.fact)
     file_path = f"amass_metrics_{split}" if amass else f"metrics_{split}"
 
     save_paths = get_metric_paths(model_samples, amass, cfg.split, onesample, cfg.mean, cfg.fact)
