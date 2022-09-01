@@ -44,21 +44,24 @@ DEFAULT_BSDF_SETTINGS = {"Subsurface": 0.15,
                          "Emission Strength": 0.0,
                          "Alpha": 1.0}
 
-def body_material(r, g, b, a=1, name="body"):
-    materials = bpy.data.materials
-    material = materials.new(name=name)
-    material.use_nodes = True
-    nodes = material.node_tree.nodes
-    diffuse = nodes["Principled BSDF"]
-    inputs = diffuse.inputs
+def body_material(r, g, b, a=1, name="body", oldrender=True):
+    if oldrender:
+        material = colored_material_diffuse_BSDF(r, g, b, a=a)
+    else:
+        materials = bpy.data.materials
+        material = materials.new(name=name)
+        material.use_nodes = True
+        nodes = material.node_tree.nodes
+        diffuse = nodes["Principled BSDF"]
+        inputs = diffuse.inputs
 
-    settings = DEFAULT_BSDF_SETTINGS.copy()
-    settings["Base Color"] = (r, g, b, a)
-    settings["Subsurface Color"] = (r, g, b, a)
-    settings["Subsurface"] = 0.0
+        settings = DEFAULT_BSDF_SETTINGS.copy()
+        settings["Base Color"] = (r, g, b, a)
+        settings["Subsurface Color"] = (r, g, b, a)
+        settings["Subsurface"] = 0.0
 
-    for setting, val in settings.items():
-        inputs[setting].default_value = val
+        for setting, val in settings.items():
+            inputs[setting].default_value = val
 
     return material
 
@@ -81,8 +84,8 @@ def colored_material_bsdf(name, **kwargs):
     return material
 
 
-def floot_mat(name="floor_mat", color=(0.1, 0.1, 0.1, 1)):
-    return colored_material_diffuse_BSDF(color[0], color[1], color[2], a=color[3], roughness=0.15)
+def floor_mat(name="floor_mat", color=(0.1, 0.1, 0.1, 1), roughness=0.127451):
+    return colored_material_diffuse_BSDF(color[0], color[1], color[2], a=color[3], roughness=roughness)
 
 
 def plane_mat():

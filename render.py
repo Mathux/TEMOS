@@ -85,7 +85,9 @@ def render_cli(cfg: DictConfig) -> None:
                 continue
 
         out = render(data, frames_folder,
-                     denoising=cfg.denoising, res=cfg.res,
+                     denoising=cfg.denoising,
+                     oldrender=cfg.oldrender,
+                     res=cfg.res,
                      canonicalize=cfg.canonicalize,
                      exact_frame=cfg.exact_frame,
                      num=cfg.num, mode=cfg.mode,

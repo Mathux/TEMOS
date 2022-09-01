@@ -1,5 +1,5 @@
 import bpy
-from .materials import floot_mat
+from .materials import floor_mat
 
 
 def get_trajectory(data, is_mesh):
@@ -12,7 +12,7 @@ def get_trajectory(data, is_mesh):
     return trajectory
 
 
-def plot_floor(data, big_plane=False):
+def plot_floor(data, big_plane=True):
     # Create a floor
     minx, miny, _ = data.min(axis=(0, 1))
     maxx, maxy, _ = data.max(axis=(0, 1))
@@ -30,7 +30,11 @@ def plot_floor(data, big_plane=False):
     obj = bpy.data.objects["Plane"]
     obj.name = "SmallPlane"
     obj.data.name = "SmallPlane"
-    obj.active_material = floot_mat(color=(0.2, 0.2, 0.2, 1))
+
+    if not big_plane:
+        obj.active_material = floor_mat(color=(0.2, 0.2, 0.2, 1))
+    else:
+        obj.active_material = floor_mat(color=(0.1, 0.1, 0.1, 1))
 
     if big_plane:
         location = ((maxx + minx)/2, (maxy + miny)/2, -0.01)

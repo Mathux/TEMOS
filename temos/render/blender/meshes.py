@@ -13,12 +13,13 @@ GEN_SMPL = body_material(0.035, 0.322, 0.615)
 
 
 class Meshes:
-    def __init__(self, data, *, gt, mode, faces_path, canonicalize, always_on_floor, **kwargs):
+    def __init__(self, data, *, gt, mode, faces_path, canonicalize, always_on_floor, oldrender=True, **kwargs):
         data = prepare_meshes(data, canonicalize=canonicalize, always_on_floor=always_on_floor)
 
         self.faces = np.load(faces_path)
         self.data = data
         self.mode = mode
+        self.oldrender = oldrender
 
         self.N = len(data)
         self.trajectory = data[:, :, [0, 1]].mean(1)
@@ -36,7 +37,7 @@ class Meshes:
         begin = 0.50
         end = 0.90
         rgbcolor = cmap(begin + (end-begin)*frac)
-        mat = body_material(*rgbcolor)
+        mat = body_material(*rgbcolor, oldrender=self.oldrender)
         return mat
 
     def get_root(self, index):

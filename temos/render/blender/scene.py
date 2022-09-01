@@ -2,7 +2,7 @@ import bpy
 from .materials import plane_mat  # noqa
 
 
-def setup_renderer(denoising=True):
+def setup_renderer(denoising=True, oldrender=True):
     bpy.context.scene.render.engine = 'CYCLES'
     bpy.data.scenes[0].render.engine = "CYCLES"
     bpy.context.preferences.addons["cycles"].preferences.compute_device_type = "CUDA"
@@ -18,15 +18,15 @@ def setup_renderer(denoising=True):
     bpy.context.scene.cycles.samples = 64
     # bpy.context.scene.cycles.denoiser = 'OPTIX'
 
-    bpy.context.scene.view_settings.view_transform = 'Standard'
-    bpy.context.scene.render.film_transparent = True
-    bpy.context.scene.display_settings.display_device = 'sRGB'
-    bpy.context.scene.view_settings.gamma = 1.2
-    bpy.context.scene.view_settings.exposure = -0.75
-
+    if not oldrender:
+        bpy.context.scene.view_settings.view_transform = 'Standard'
+        bpy.context.scene.render.film_transparent = True
+        bpy.context.scene.display_settings.display_device = 'sRGB'
+        bpy.context.scene.view_settings.gamma = 1.2
+        bpy.context.scene.view_settings.exposure = -0.75
 
 # Setup scene
-def setup_scene(res="high", denoising=True):
+def setup_scene(res="high", denoising=True, oldrender=True):
     scene = bpy.data.scenes['Scene']
     assert res in ["ultra", "high", "med", "low"]
     if res == "high":
@@ -65,5 +65,5 @@ def setup_scene(res="high", denoising=True):
                              use_proportional_connected=False, use_proportional_projected=False)
     bpy.ops.object.select_all(action='DESELECT')
 
-    setup_renderer(denoising=denoising)
+    setup_renderer(denoising=denoising, oldrender=oldrender)
     return scene

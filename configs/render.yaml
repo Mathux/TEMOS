@@ -19,6 +19,11 @@ tmp_path: /tmp/
 logger_level: INFO
 
 denoising: true
+
+# oldrender=true gray scale background
+# oldrender=false transparent background, materials a bit different
+oldrender: true
+
 res: high
 # "high", "med", "low"
 
