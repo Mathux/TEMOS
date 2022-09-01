@@ -239,15 +239,15 @@ To render only one motion, please use this command line:
 blender --background --python render.py -- npy=PATH_TO_DATA.npy [OPTIONS]
 ```
 
-### Rendering all the data
-Please use this command line to render all the data of a split (which have to be already generated with ``sample.py``). I suggest to use ``split=visu`` to render only a small subset.
+### Rendering all the npy of a folder
+Please use this command line to render all the npy inside a specific folder.
 ```bash
-blender --background --python render.py -- folder=FOLDER [OPTIONS]
+blender --background --python render.py -- folder=FOLDER_WITH_NPYS [OPTIONS]
 ```
 
 ### SMPL bodies
 Don't forget to generate the data with the option ``jointstype=vertices`` before.
-The renderer will automatically detect whether the movement is a sequence of joints or meshes.
+The renderer will automatically detect whether the motion is a sequence of joints or meshes.
 
 
 ### Some optional parameters

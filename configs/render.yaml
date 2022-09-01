@@ -30,7 +30,7 @@ res: high
 # for video: 1/8 frame rendered
 downsample: true
 
-infolder: false
+infolder: true
 
 gt: false
 canonicalize: true
