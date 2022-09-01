@@ -209,18 +209,24 @@ In any case, after the installation, please do step 5. to install the dependenci
 3. Check that the correct version is installed:
    - ``blender --background --version`` should return "Blender 2.93.X".
    - ``blender --background --python-expr "import sys; print('\nThe version of python is '+sys.version.split(' ')[0])"`` should return "3.9.X".
-4. Locate the python installation used by blender the following line. I will refer to this path as ``path/to/blender/python``.
+4. Locate the python installation used by blender the following line. I will refer to this path as ``/path/to/blender/python``.
 ```bash
-blender --background --python-expr "import sys; import os; print('\nThe path to the installation of python of blender can be:'); print('\n'.join(['- '+x for x in sys.path if 'python' in (file:=os.path.split(x)[-1]) and not file.endswith('.zip')]))"
+blender --background --python-expr "import sys; import os; print('\nThe path to the installation of python of blender can be:'); print('\n'.join(['- '+x.replace('/lib/python3.9', '/bin/python3.9') for x in sys.path if 'python' in (file:=os.path.split(x)[-1]) and not file.endswith('.zip')]))"
 ```
-5. Install these packages in the python environnement of blender:
+
+5. Install pip
 ```bash
-path/to/blender/python -m pip install --user numpy
-path/to/blender/python -m pip install --user matplotlib
-path/to/blender/python -m pip install --user hydra-core --upgrade
-path/to/blender/python -m pip install --user hydra_colorlog --upgrade
-path/to/blender/python -m pip install --user moviepy
-path/to/blender/python -m pip install --user shortuuid
+/path/to/blender/python -m ensurepip --upgrade
+```
+
+6. Install these packages in the python environnement of blender:
+```bash
+/path/to/blender/python -m pip install --user numpy
+/path/to/blender/python -m pip install --user matplotlib
+/path/to/blender/python -m pip install --user hydra-core --upgrade
+/path/to/blender/python -m pip install --user hydra_colorlog --upgrade
+/path/to/blender/python -m pip install --user moviepy
+/path/to/blender/python -m pip install --user shortuuid
 ```
 
 ### Launch a python script (with arguments) with blender
