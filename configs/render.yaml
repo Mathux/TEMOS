@@ -42,5 +42,4 @@ defaults:
   - /path@path
   - _self_
 
-
-faces_path: ${path.deps}/smplh/smpl.faces
+faces_path: ${path.deps}/smplh/smplh.faces

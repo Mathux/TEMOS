@@ -90,11 +90,6 @@ cd ..
 ### 4. (Optional) SMPL body model
 This is only useful if you want to use generate 3D human meshes like in the teaser. In this case, you also need a subset of the AMASS dataset (see instructions below).
 
-Create this folder:
-```bash
-mkdir deps/smplh/
-```
-
 Go to the [MANO website](https://mano.is.tue.mpg.de/download.php), register and go to the Download tab.
 
 - Click on "Models & Code" to download ``mano_v1_2.zip`` and place it in the folder ``deps/smplh/``.
@@ -137,7 +132,6 @@ This folder is printed during logging, it should look like ``outputs/kit-mmm-xyz
 - ``data=kit-mmm-xyz``: KIT-ML motions processed by the [MMM](https://mmm.humanoids.kit.edu/) framework (as in the [original data](https://motion-annotation.humanoids.kit.edu/dataset/)) loaded as xyz joint coordinates (after axis-angle transformation → xyz) (by default)
 - ``data=kit-amass-rot``: KIT-ML motions loaded as [SMPL](https://smpl.is.tue.mpg.de/) rotations and translations, from [AMASS](https://amass.is.tue.mpg.de/) (processed with [MoSh++](https://github.com/nghorbani/moshpp))
 - ``data=kit-amass-xyz``: KIT-ML motions loaded as xyz joint coordinates, from [AMASS](https://amass.is.tue.mpg.de/) (processed with [MoSh++](https://github.com/nghorbani/moshpp)) after passing through a [SMPL](https://smpl.is.tue.mpg.de/) layer and regressing the correct joints.
-
 
 
 #### Training
