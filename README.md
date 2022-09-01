@@ -211,7 +211,7 @@ In any case, after the installation, please do step 5. to install the dependenci
    - ``blender --background --python-expr "import sys; print('\nThe version of python is '+sys.version.split(' ')[0])"`` should return "3.9.X".
 4. Locate the python installation used by blender the following line. I will refer to this path as ``/path/to/blender/python``.
 ```bash
-blender --background --python-expr "import sys; import os; print('\nThe path to the installation of python of blender can be:'); print('\n'.join(['- '+x.replace('/lib/python3.9', '/bin/python3.9') for x in sys.path if 'python' in (file:=os.path.split(x)[-1]) and not file.endswith('.zip')]))"
+blender --background --python-expr "import sys; import os; print('\nThe path to the installation of python of blender can be:'); print('\n'.join(['- '+x.replace('/lib/python', '/bin/python') for x in sys.path if 'python' in (file:=os.path.split(x)[-1]) and not file.endswith('.zip')]))"
 ```
 
 5. Install pip
