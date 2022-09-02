@@ -29,7 +29,12 @@ You can also put a star :star:, if the code is useful to you.
 
 
 ## Installation :construction_worker:
+
+<details><summary>Click to expand</summary>
+
 ### 1. Create conda environment
+
+<details><summary>Instructions</summary>
 
 ```
 conda create python=3.9 --name temos
@@ -51,8 +56,12 @@ pip install einops
 ```
 The code was tested on Python 3.9.7 and PyTorch 1.10.0.
 
+</details>
 
 ### 2. Download the datasets
+
+<details><summary>Instructions</summary>
+
 #### KIT Motion-Language dataset
 **Be sure to read and follow their license agreements, and cite accordingly.**
 
@@ -78,7 +87,12 @@ tar xfv EKUT.tar.bz2
 cd ../../
 ```
 
+</details>
+
 ### 3. Download text model dependencies
+
+<details><summary>Instructions</summary>
+
 #### Download distilbert from __Hugging Face__
 ```bash
 cd deps/
@@ -87,7 +101,12 @@ git clone https://huggingface.co/distilbert-base-uncased
 cd ..
 ```
 
+</details>
+
 ### 4. (Optional) SMPL body model
+
+<details><summary>Instructions</summary>
+
 This is only useful if you want to use generate 3D human meshes like in the teaser. In this case, you also need a subset of the AMASS dataset (see instructions below).
 
 Go to the [MANO website](https://mano.is.tue.mpg.de/download.php), register and go to the Download tab.
@@ -106,7 +125,12 @@ bash prepare/smplh.sh
 
 This will create ``SMPLH_FEMALE.npz``, ``SMPLH_MALE.npz``, ``SMPLH_NEUTRAL.npz`` inside the ``deps/smplh`` folder.
 
+</details>
+
 ### 5. (Optional) Download pre-trained models
+
+<details><summary>Instructions</summary>
+
 Make sure to have gdown installed
 
 ```bash
@@ -130,8 +154,14 @@ pretrained_models
     └── 3l49g7hv
 ```
 
+</details>
+
+</details>
 
 ## How to train TEMOS :rocket:
+
+<details><summary>Click to expand</summary>
+
 The command to launch a training experiment is the folowing:
 ```bash
 python train.py [OPTIONS]
@@ -159,7 +189,13 @@ This folder is printed during logging, it should look like ``outputs/kit-mmm-xyz
 - ``trainer=gpu``: training with CUDA, on an automatically selected GPU (default)
 - ``trainer=cpu``: training on the CPU (not recommended)
 
+
+</details>
+
 ## How to generate motions with TEMOS :walking:
+
+<details><summary>Click to expand</summary>
+
 ### Dataset splits
 To get results comparable to previous work, we use the same splits as in [Language2Pose](https://github.com/chahuja/language2pose) and [Ghosh et al.](https://github.com/anindita127/Complextext2animation).
 To be explicit, and not rely on random seeds, you can find the list of id-files in [datasets/kit-splits/](datasets/kit-splits/) ([train](datasets/kit-splits/train)/[val](datasets/kit-splits/val)/[test](datasets/kit-splits/test)).
@@ -189,8 +225,12 @@ If your model has been trained with ``data=kit-amass-rot``, it produces [SMPL](h
 - ``jointstype=mmm``: Generate xyz joints compatible with the [MMM](https://mmm.humanoids.kit.edu/) bodies (by default). This gives skeletons comparable to ``data=kit-mmm-xyz`` (needed for evaluation).
 - ``jointstype=vertices``: Generate human body meshes (needed for rendering).
 
+</details>
 
 ## Evaluating TEMOS (and prior works) :bar_chart:
+
+<details><summary>Click to expand</summary>
+
 To evaluate TEMOS on the metrics defined in the paper, you must generate motions first (see above), and then run:
 ```bash
 python evaluate.py folder=FOLDER [OPTIONS]
@@ -212,9 +252,12 @@ To give an overview:
 2. Save them in xyz format (I "hack" their render script, to save them in xyz npy format instead of rendering)
 3. Load them into the evaluation code (instead of loading TEMOS motions).
 
-
+</details>
 
 ## Rendering motions :high_brightness:
+
+<details><summary>Click to expand</summary>
+
 To get the visuals of the paper, I use [Blender 2.93](https://www.blender.org/download/releases/2-93/). The setup is not trivial (installation + running), I do my best to explain the process but don't hesitate to tell me if you have a problem.
 
 
@@ -286,6 +329,7 @@ The renderer will automatically detect whether the motion is a sequence of joint
   - ``frame``: Render a single frame, at a specific point in time (``exact_frame=0.5``, generates the frame at about 50% of the video)
 - ``quality=false``: Render to a higher resolution and denoise the output (default to false to speed up))
 
+</details>
 
 ## License :books:
 This code is distributed under an [MIT LICENSE](LICENSE).
