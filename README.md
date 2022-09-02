@@ -221,7 +221,7 @@ To get the visuals of the paper, I use [Blender 2.93](https://www.blender.org/do
 ### Instalation
 The goal is to be able to install blender so that it can be used with python scripts (so we can use ``import bpy''). There seem to be many different ways to do this, I will explain the one I use and understand (feel free to use other methods or suggest an easier way). The installation of Blender will be done as a standalone package. To use my scripts, we will run blender in the background, and the python executable in blender will run the script.
 
-In any case, after the installation, please do step 5. to install the dependencies in the python environment.
+In any case, after the installation, please do step 5/6. to install the dependencies in the python environment.
 
 1. Please follow the [instructions](https://www.blender.org/download/lts/2-93/) to install blender 2.93 on your operating system. Please install exactly this version.
 2. Locate the blender executable if it is not in your path. For the following commands, please replace ``blender`` with the path to your executable (or create a symbolic link or use an alias).
