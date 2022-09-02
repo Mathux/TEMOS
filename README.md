@@ -159,7 +159,7 @@ This folder is printed during logging, it should look like ``outputs/kit-mmm-xyz
 - ``trainer=gpu``: training with CUDA, on an automatically selected GPU (default)
 - ``trainer=cpu``: training on the CPU (not recommended)
 
-## How to generate motions with TEMOS
+## How to generate motions with TEMOS :walking:
 ### Dataset splits
 To get results comparable to previous work, we use the same splits as in [Language2Pose](https://github.com/chahuja/language2pose) and [Ghosh et al.](https://github.com/anindita127/Complextext2animation).
 To be explicit, and not rely on random seeds, you can find the list of id-files in [datasets/kit-splits/](datasets/kit-splits/) ([train](datasets/kit-splits/train)/[val](datasets/kit-splits/val)/[test](datasets/kit-splits/test)).
@@ -190,7 +190,7 @@ If your model has been trained with ``data=kit-amass-rot``, it produces [SMPL](h
 - ``jointstype=vertices``: Generate human body meshes (needed for rendering).
 
 
-## Evaluating TEMOS (and prior works)
+## Evaluating TEMOS (and prior works) :bar_chart:
 To evaluate TEMOS on the metrics defined in the paper, you must generate motions first (see above), and then run:
 ```bash
 python evaluate.py folder=FOLDER [OPTIONS]
@@ -214,7 +214,7 @@ To give an overview:
 
 
 
-## Rendering motions
+## Rendering motions :high_brightness:
 To get the visuals of the paper, I use [Blender 2.93](https://www.blender.org/download/releases/2-93/). The setup is not trivial (installation + running), I do my best to explain the process but don't hesitate to tell me if you have a problem.
 
 
@@ -287,7 +287,7 @@ The renderer will automatically detect whether the motion is a sequence of joint
 - ``quality=false``: Render to a higher resolution and denoise the output (default to false to speed up))
 
 
-## License
+## License :books:
 This code is distributed under an [MIT LICENSE](LICENSE).
 
 Note that our code depends on other libraries, including SMPL, SMPL-X, PyTorch3D, Hugging Face, Hydra, and uses datasets which each have their own respective licenses that must also be followed.
