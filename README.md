@@ -119,7 +119,7 @@ Then, please run this command line:
 bash prepare/download_pretrained_models.sh
 ```
 
-It will one pretrained models for each type of data (see Section [datasets](#datasets) below for more information).
+Inside the ``pretrained models`` folder, you will find one for each type of data (see Section [datasets](#datasets) below for more information).
 ```
 pretrained_models
 ├── kit-amass-rot
