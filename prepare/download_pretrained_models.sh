@@ -8,7 +8,7 @@ md5sum pretrained_models.tgz
 
 echo -e "If it is not, please rerun this script"
 
-sleep 3
+sleep 5
 tar xfzv pretrained_models.tgz
 
 echo -e "Cleaning\n"

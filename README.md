@@ -41,7 +41,7 @@ conda create python=3.9 --name temos
 conda activate temos
 ```
 
-Install [PyTorch 1.10](https://pytorch.org/) inside the conda environnement, and install the following packages:
+Install [PyTorch 1.10](https://pytorch.org/) inside the conda environment, and install the following packages:
 ```bash
 pip install pytorch_lightning --upgrade
 pip install torchmetrics==0.7
@@ -245,12 +245,26 @@ Currently, evaluation is only implemented on skeletons with [MMM](https://mmm.hu
 
 
 ### Evaluating prior works
-WIP: the proper instructions and code will be available soon.
 
-To give an overview:
+Please use this command line to download the motions generated from previous work:
+
+```bash
+bash prepare/download_previous_works.sh
+```
+
+Then, to evaluate a method, you can do for example:
+
+```bash
+python evaluate.py folder=previous_work/ghosh
+```
+
+or change "ghosh" with "jl2p" or "lin".
+
+
+To give an overview on how to extract their motions:
 1. Generate motions with their code (it is still in the rifke feature space)
 2. Save them in xyz format (I "hack" their render script, to save them in xyz npy format instead of rendering)
-3. Load them into the evaluation code (instead of loading TEMOS motions).
+3. Load them into the evaluation code, as shown above.
 
 </details>
 
