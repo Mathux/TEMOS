@@ -65,7 +65,7 @@ The code was tested on Python 3.9.7 and PyTorch 1.10.0.
 #### KIT Motion-Language dataset
 **Be sure to read and follow their license agreements, and cite accordingly.**
 
-Use the code from [Ghosh et al.](https://github.com/anindita127/Complextext2animation) or [JL2P](https://github.com/chahuja/language2pose) to download and prepare the kit dataset (extraction of xyz joints coodinates data from axis-angle Master Motor Map). Move or copy all the files which ends with "_meta.json", "_annotations.json" and "_fke.csv" inside the ``datasets/kit`` folder.
+Use the code from [Ghosh et al.](https://github.com/anindita127/Complextext2animation) to download and prepare the kit dataset (extraction of xyz joints coodinates data from axis-angle Master Motor Map). Move or copy all the files which ends with "_meta.json", "_annotations.json" and "_fke.csv" inside the ``datasets/kit`` folder.
 "
 These motions are process by the Master Motor Map (MMM) framework. To be able to generate motions with SMPL body model, please look at the next section.
 
