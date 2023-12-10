@@ -74,12 +74,15 @@ def interact(newcfg: DictConfig) -> None:
         logger.info(f"The topology will be {cfg.gender}.")
         cfg.model.transforms.rots2joints.gender = cfg.gender
 
-    logger.info("Loading data module")
-    data_module = instantiate(cfg.data)
-    logger.info(f"Data module '{cfg.data.dataname}' loaded")
+    if cfg.transforms.name == "XYZTransform":
+        nfeats = 64
+    elif cfg.transforms.name == "SMPLTransform":
+        nfeats = 135
+    else:
+        raise NotImplementedError()
 
     model = instantiate(cfg.model,
-                        nfeats=data_module.nfeats,
+                        nfeats=nfeats,
                         logger_name="none",
                         nvids_to_save=None,
                         _recursive_=False)

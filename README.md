@@ -41,7 +41,7 @@ conda create python=3.9 --name temos
 conda activate temos
 ```
 
-Install [PyTorch 1.10](https://pytorch.org/) inside the conda environnement, and install the following packages:
+Install [PyTorch 1.10](https://pytorch.org/) inside the conda environment, and install the following packages:
 ```bash
 pip install pytorch_lightning --upgrade
 pip install torchmetrics==0.7
@@ -65,7 +65,7 @@ The code was tested on Python 3.9.7 and PyTorch 1.10.0.
 #### KIT Motion-Language dataset
 **Be sure to read and follow their license agreements, and cite accordingly.**
 
-Use the code from [Ghosh et al.](https://github.com/anindita127/Complextext2animation) or [JL2P](https://github.com/chahuja/language2pose) to download and prepare the kit dataset (extraction of xyz joints coodinates data from axis-angle Master Motor Map). Move or copy all the files which ends with "_meta.json", "_annotations.json" and "_fke.csv" inside the ``datasets/kit`` folder.
+Use the code from [Ghosh et al.](https://github.com/anindita127/Complextext2animation) to download and prepare the kit dataset (extraction of xyz joints coodinates data from axis-angle Master Motor Map). Move or copy all the files which ends with "_meta.json", "_annotations.json" and "_fke.csv" inside the ``datasets/kit`` folder.
 "
 These motions are process by the Master Motor Map (MMM) framework. To be able to generate motions with SMPL body model, please look at the next section.
 
@@ -245,12 +245,26 @@ Currently, evaluation is only implemented on skeletons with [MMM](https://mmm.hu
 
 
 ### Evaluating prior works
-WIP: the proper instructions and code will be available soon.
 
-To give an overview:
+Please use this command line to download the motions generated from previous work:
+
+```bash
+bash prepare/download_previous_works.sh
+```
+
+Then, to evaluate a method, you can do for example:
+
+```bash
+python evaluate.py folder=previous_work/ghosh
+```
+
+or change "ghosh" with "jl2p" or "lin".
+
+
+To give an overview on how to extract their motions:
 1. Generate motions with their code (it is still in the rifke feature space)
 2. Save them in xyz format (I "hack" their render script, to save them in xyz npy format instead of rendering)
-3. Load them into the evaluation code (instead of loading TEMOS motions).
+3. Load them into the evaluation code, as shown above.
 
 </details>
 
